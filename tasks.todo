@@ -1,0 +1,48 @@
+Project Aquaterm2
+
+Primary purpose:
+  - AquaTerm is hard to maintain
+  - X11 is again not installed by default on OS X
+  - It would be nice to have the functionality in Python (et al.) 
+
+Standards:
+  - Compatible with existing adapters
+  - Clear, maintanable, modern ObjC/Cocoa
+
+Outcome vision:
+  - A useful tool that adresses the issus and limitations that have accumulated over time.
+
+Support:
+  Mind dump, quantity over quality. 
+  -
+
+Base functionality:
+ - Events
+ - Export
+ - Copy & Paste support
+ - Bridge support
+
+Extended functionality:
+  - Save as XML
+  - Drag and drop support
+  - Great Python support
+  - Improve underlying model
+  - Provide extended interface?
+
+Bugs:
+  - Don't open empty doc on startup
+  - Where is Untitled 1?
+  -
+
+Actions:
+  + Split into Framework, Application, and Tool
+  + Try out Refactoring functions
+  + Make AQTModel iteratable (trivial)
+  - Symbol font
+  + Does UTF8 input work? (YES)
+  - Set up unit testing
+  
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+  + Complete this form @done (13-08-16 15:48)

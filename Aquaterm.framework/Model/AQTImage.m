@@ -1,0 +1,48 @@
+
+
+#import "AQTImage.h"
+
+static NSString *AQTBitmapKey = @"AQTBitmapKey";
+static NSString *AQTBitmapSizeKey = @"AQTBitmapSizeKey";
+static NSString *AQTTransformKey = @"AQTTransformKey";
+
+@implementation AQTImage
+
+@synthesize bitmap = _bitmap;
+@synthesize transform;
+
+- (id)initWithBitmap:(const char *)bytes size:(NSSize)size bounds:(NSRect)bounds
+{
+  if (self = [super init])
+  {
+      self.bounds = bounds;
+      self.bitmapSize = size;
+      // FIXME: Removing `fitBounds`, and relying on transform.
+      //        Need to set correct scaling from start.
+      self.transform = [NSAffineTransform transform];
+      // Implies RGB data
+      _bitmap = [[NSData alloc] initWithBytes:bytes length:3*size.width*size.height];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [super encodeWithCoder:coder];
+    [coder encodeObject:_bitmap forKey:AQTBitmapKey];
+    [coder encodeSize:self.bitmapSize forKey:AQTBitmapSizeKey];
+    [coder encodeObject:self.transform forKey:AQTTransformKey];
+}
+
+-(id)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        _bitmap = [coder decodeObjectForKey:AQTBitmapKey];
+        self.bitmapSize = [coder decodeSizeForKey:AQTBitmapSizeKey];
+        self.transform = [coder decodeObjectForKey:AQTTransformKey];
+    }
+    return self;
+}
+
+@end

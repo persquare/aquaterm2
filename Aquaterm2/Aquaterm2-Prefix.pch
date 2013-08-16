@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Aquaterm2' target in the 'Aquaterm2' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
