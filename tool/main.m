@@ -33,18 +33,6 @@ int main(int argc, const char * argv[])
 
 void simple(AQTAdapter *adapter)
 {
-    NSPoint points[128];
-    NSPoint pos;
-    int32_t i;
-    float f;
-    double pi = 4.0*atan(1.0);
-    unsigned char rgbImage[12]={
-        255, 0, 0,
-        0, 255, 0,
-        0, 0, 255,
-        0, 0, 0
-    };
-    
     [adapter openPlotWithIndex:1];
     [adapter setPlotSize:NSMakeSize(620,420)];
     [adapter setPlotTitle:@"Testview"];
