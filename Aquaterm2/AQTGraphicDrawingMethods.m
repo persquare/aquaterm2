@@ -266,7 +266,6 @@ static float _aqtMinimumLinewidth;
 
 -(NSRect)updateBounds
 {
-    NSAffineTransform *transf = [NSAffineTransform transform];
     NSRect tmpBounds = self.bounds;
     if (!self.fitBounds) {
         // Make a path from bounds rect, transform the path,
