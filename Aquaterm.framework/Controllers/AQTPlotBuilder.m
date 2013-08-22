@@ -406,7 +406,7 @@
     [tmpPath setColor:_color];
     [tmpPath setLinewidth:0.25]; // FIXME: What to do about the see-through edges?
     //[tmpPath setLineCapStyle:_capStyle];
-    [tmpPath setFilled:YES];
+    [tmpPath setFillColor:_color];
     [_model addObject:tmpPath];
     [self _aqtPlotBuilderSetModelIsDirty:YES];
 }

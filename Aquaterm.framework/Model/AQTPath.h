@@ -12,8 +12,9 @@
     NSPointArray path;
     NSPointArray dynamicPathStore;
     NSPoint staticPathStore[STATIC_POINT_STORAGE];
- 
     int32_t pointCount;
+    
+    AQTColor *_fillColor;
     
     float pattern[MAX_PATTERN_COUNT];
     int32_t patternCount;
@@ -22,9 +23,14 @@
 
 @property float linewidth;
 @property int32_t lineCapStyle;
-@property BOOL filled;
+@property (readonly, getter = isClosed) BOOL closed;
 
 - (id)initWithPoints:(NSPointArray)points pointCount:(int32_t)pointCount;
 - (BOOL)hasPattern;
 - (void)setLinestylePattern:(const float *)newPattern count:(int32_t)newCount phase:(float)newPhase;
+- (void)closePath;
+- (void)setFillColor:(AQTColor *)color;
+- (AQTColor *)fillColor;
+- (BOOL)filled;
+- (BOOL)stroked;
 @end

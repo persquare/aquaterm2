@@ -13,7 +13,6 @@
 
 
 @interface AQTGraphic (AQTGraphicDrawingMethods)
-- (void)setAQTColor;
 - (NSRect)updateBounds;
 - (NSRect)clippedBounds;
 - (void)renderInRect:(NSRect)dirtyRect; // In canvas coords, not view coords

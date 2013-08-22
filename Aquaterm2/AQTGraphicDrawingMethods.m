@@ -18,15 +18,20 @@
  this is ugly, but I can't see a simple way to do it without affecting performance. */
 static float _aqtMinimumLinewidth;
 
-@implementation AQTGraphic (AQTGraphicDrawingMethods)
-- (void)setAQTColor
+@implementation AQTColor (ColorConversion)
+
+- (NSColor *)nsColor
 {
-    [[NSColor colorWithCalibratedRed:self.color.red
-                               green:self.color.green
-                                blue:self.color.blue
-                               alpha:self.color.alpha] set];
+   return [NSColor colorWithCalibratedRed:self.red
+                                    green:self.green
+                                     blue:self.blue
+                                    alpha:self.alpha];
 }
 
+@end
+
+
+@implementation AQTGraphic (AQTGraphicDrawingMethods)
 // Dirty rect is in canvas coordinates
 -(void)renderInRect:(NSRect)dirtyRect
 {
@@ -90,7 +95,7 @@ static float _aqtMinimumLinewidth;
     }
         
     // Model object is responsible for background...
-    [self setAQTColor];
+    [[self.color nsColor] set];
     NSRectFill(dirtyRect);
     
     for (AQTGraphic *graphic in self.modelObjects) {
@@ -164,7 +169,7 @@ static float _aqtMinimumLinewidth;
         return;
     }
     
-    [self setAQTColor];
+    [[self.color nsColor] set];
     if (self.clipped) {
         [NSGraphicsContext saveGraphicsState];
         NSRectClip(self.clippedBounds);
@@ -220,13 +225,14 @@ static float _aqtMinimumLinewidth;
     if (!NSIntersectsRect(dirtyRect, self.clippedBounds)) {
         return;
     }
-    [self setAQTColor];
+    [[self.color nsColor] set];
     if (self.clipped) {
         [NSGraphicsContext saveGraphicsState];
         NSRectClip(self.clippedBounds);
     }
     [self.cache stroke];
     if (self.filled) {
+        [[self.fillColor nsColor] set];
         [self.cache fill];
     }
     if (self.clipped) {
