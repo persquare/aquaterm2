@@ -62,4 +62,14 @@ static NSString *AQTAlphaComponentKey = @"AQTAlphaComponentKey";
     return self;
 }
 
+- (BOOL)isEqualToColor:(AQTColor *)color
+{
+    float EPS = 1.0f/256.0f; // Assume 32bit RGBA
+    BOOL equal = fabsf(_red - color.red) < EPS
+    && fabsf(_green - color.green) < EPS
+    && fabsf(_blue - color.blue) < EPS
+    && fabsf(_alpha - color.alpha) < EPS;
+    
+    return equal;
+}
 @end

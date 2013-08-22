@@ -141,9 +141,7 @@
 
 - (void)setColor:(AQTColor *)newColor
 {
-    // FIXME: Use AQTEqualColor instead
-    if ((newColor.red != _color.red) || (newColor.green != _color.green) || (newColor.blue != _color.blue) || (newColor.alpha != _color.alpha))
-    {
+    if ([newColor isEqualToColor:_color]) {
         [self _flushBuffers];
         _color = newColor;
     }
@@ -151,10 +149,8 @@
 
 - (void)setBackgroundColor:(AQTColor *)newColor
 {
-    AQTColor *oldColor = [_model color];
-    // FIXME: Pointless comparison. Use AQTEqualColor instead
-    if ((newColor.red != oldColor.red) || (newColor.green != oldColor.green) || (newColor.blue != oldColor.blue) || (newColor.alpha != oldColor.alpha))
-    {
+    // FIXME: Move test to model
+    if ([newColor isEqualToColor:_model.color]) {
         [_model setColor:newColor];
     }
 }
