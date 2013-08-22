@@ -3,8 +3,6 @@
 static NSString *AQTModelObjectsKey = @"AQTModelObjectsKey";
 static NSString *AQTTitleKey = @"AQTTitleKey";
 static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
-static NSString *AQTDirtyRectKey = @"AQTDirtyRectKey";
-static NSString *AQTDirtyKey = @"AQTDirtyKey";
 
 @implementation AQTModel
 /**"
