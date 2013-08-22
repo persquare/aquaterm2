@@ -37,8 +37,6 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
     [coder encodeObject:_modelObjects forKey:AQTModelObjectsKey];
     [coder encodeObject:_title forKey:AQTTitleKey];
     [coder encodeSize:_canvasSize forKey:AQTCanvasSizeKey];
-    [coder encodeRect:_dirtyRect forKey:AQTDirtyRectKey];
-    [coder encodeBool:_dirty forKey:AQTDirtyKey];
 }
 
 -(id)initWithCoder:(NSCoder *)coder
@@ -48,8 +46,6 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
         _modelObjects = [coder decodeObjectForKey:AQTModelObjectsKey];
         _title = [coder decodeObjectForKey:AQTTitleKey];
         _canvasSize = [coder decodeSizeForKey:AQTCanvasSizeKey];
-        _dirtyRect = [coder decodeRectForKey:AQTDirtyRectKey];
-        _dirty = [coder decodeBoolForKey:AQTDirtyKey];
     }
     return self;
 }
