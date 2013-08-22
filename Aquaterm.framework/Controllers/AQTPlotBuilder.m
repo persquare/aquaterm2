@@ -17,17 +17,18 @@
 
 
 @implementation AQTPlotBuilder
-- (void)_aqtPlotBuilderSetDefaultValues
+- (void)setDefaultValues
 {
+    // FIXME: From user preferences
+    _fontName = @"Times-Roman";
+    _fontSize = 14.0;
+    _defaultCanvasSize = NSMakeSize(1024.0, 768.0);
+    // Hard defaults
     _color.red = 0.0;
     _color.green = 0.0;
     _color.blue = 0.0;
     _color.alpha = 1.0;
-    _fontName = @"Times-Roman";
-    _fontSize = 14.0;
     _linewidth = 1.0;
-    // _transform.m11 = 1.0;
-    // _transform.m22 = 1.0;
     _transform = [NSAffineTransform transform];
     _hasPattern = NO;
     _patternCount = 0;
@@ -76,11 +77,9 @@
     self = [super init];
     if (self) {
         _plot = plot;
-        // FIXME: Default plot size + preferences, NOT NSZeroSize!
-        _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
-        [self _aqtPlotBuilderSetDefaultValues];
+        [self setDefaultValues];
+        _model = [[AQTModel alloc] initWithCanvasSize:_defaultCanvasSize];
         _colormap = [[AQTColorMap alloc] initWithColormapSize:AQT_COLORMAP_SIZE];
-        // [self _aqtPlotBuilderSetModelIsDirty:NO];
     }
     return self;
 }
@@ -97,7 +96,7 @@
 
 - (void)reset
 {
-    [self _aqtPlotBuilderSetDefaultValues];
+    [self setDefaultValues];
 }
 
 - (BOOL)modelIsDirty
@@ -113,7 +112,6 @@
 
 - (void)setSize:(NSSize)canvasSize
 {
-    _hasSize = !NSEqualSizes(NSZeroSize, canvasSize);
     [_model setCanvasSize:canvasSize];
 }
 

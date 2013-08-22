@@ -34,7 +34,6 @@
     int32_t _polylinePointCount;	/*" The current number of points in _polylinePoints"*/
     NSPoint _polygonPoints[MAX_POLYGON_POINTS];	/*" A cache for coalescing connected line segments into a single path "*/
     int32_t _polygonPointCount;	/*" The current number of points in _polylinePoints"*/
-    BOOL _hasSize; /*" A flag to indicate that size has been set at least once "*/
     NSAffineTransform *_transform;
     AQTColorMap *_colormap;
     BOOL _hasPattern; /*" Current pattern state "*/
@@ -43,6 +42,7 @@
     float _patternPhase; /*" Currently selected dash phase "*/
     NSRect _clipRect;
     BOOL _isClipped;
+    NSSize _defaultCanvasSize;
 }
 
 - (id)initWithPlot:(id <AQTRendering>)plot; // FIXME: Rename -initWithRenderer:
