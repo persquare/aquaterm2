@@ -35,7 +35,6 @@
     NSPoint _polygonPoints[MAX_POLYGON_POINTS];	/*" A cache for coalescing connected line segments into a single path "*/
     int32_t _polygonPointCount;	/*" The current number of points in _polylinePoints"*/
     BOOL _hasSize; /*" A flag to indicate that size has been set at least once "*/
-    BOOL _modelIsDirty;	/*" A flag indicating that AquaTerm has not been updated with the latest info "*/
     NSAffineTransform *_transform;
     AQTColorMap *_colormap;
     BOOL _hasPattern; /*" Current pattern state "*/

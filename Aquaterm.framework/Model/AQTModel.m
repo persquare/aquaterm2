@@ -62,17 +62,25 @@ static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
   return (int32_t)[_modelObjects count];
 }
 
+-(void)setColor:(AQTColor *)color
+{
+    [super setColor:color];
+    _dirty = TRUE;
+}
+
 /**"
 *** Add any subclass of AQTGraphic to the collection of objects.
 "**/
 -(void)addObject:(AQTGraphic *)graphic
 {
-  [_modelObjects addObject:graphic];
+    [_modelObjects addObject:graphic];
+    _dirty = TRUE;
 }
 
 -(void)addObjectsFromArray:(NSArray *)graphics
 {
-   [_modelObjects addObjectsFromArray:graphics];
+    [_modelObjects addObjectsFromArray:graphics];
+    _dirty = TRUE;
 }
 
 -(NSArray *)modelObjects
@@ -82,12 +90,14 @@ static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
 
 -(void)removeAllObjects
 {
-   [_modelObjects removeAllObjects];
+    [_modelObjects removeAllObjects];
+    _dirty = TRUE;
 }
 
 -(void)removeObjectAtIndex:(uint32_t)i
 {
-   [_modelObjects removeObjectAtIndex:i];
+    [_modelObjects removeObjectAtIndex:i];
+    _dirty = TRUE;
 }
 
 @end

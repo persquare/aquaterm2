@@ -34,20 +34,6 @@
     _patternPhase = 0.0;
 }
 
-- (void)_aqtPlotBuilderSetModelIsDirty:(BOOL)isDirty
-{
-    // Any coalescing of render call may be performed here (use timer)
-    
-    // It ain't dirty until the fat lady has a size
-    _modelIsDirty = isDirty && _hasSize;
-#ifdef DEBUG
-    if (_modelIsDirty && NSEqualSizes(NSZeroSize, [_model canvasSize]))
-    {
-        [NSException raise:@"AQTDebugException" format:@"%@", NSStringFromSelector(_cmd)];
-    }
-#endif
-}
-
 - (BOOL)_flushPolylineBuffer
 {
     BOOL didFlush = NO;
@@ -94,7 +80,7 @@
         _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
         [self _aqtPlotBuilderSetDefaultValues];
         _colormap = [[AQTColorMap alloc] initWithColormapSize:AQT_COLORMAP_SIZE];
-        [self _aqtPlotBuilderSetModelIsDirty:NO];
+        // [self _aqtPlotBuilderSetModelIsDirty:NO];
     }
     return self;
 }
@@ -116,7 +102,7 @@
 
 - (BOOL)modelIsDirty
 {
-    return _modelIsDirty;
+    return _model.dirty;
 }
 
 - (AQTModel *)model
@@ -172,7 +158,6 @@
     if ((newColor.red != oldColor.red) || (newColor.green != oldColor.green) || (newColor.blue != oldColor.blue) || (newColor.alpha != oldColor.alpha))
     {
         [_model setColor:newColor];
-        [self _aqtPlotBuilderSetModelIsDirty:YES];
     }
 }
 
@@ -299,7 +284,6 @@
     [lb setFontName:_fontName];
     [lb setFontSize:_fontSize];
     [_model addObject:lb];
-    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 //
 // AQTPath
@@ -339,7 +323,6 @@
         _polylinePointCount = 0;
         [self moveToPoint:point];
     }
-    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 // This is where all line-drawing  ends up eventually.
@@ -359,7 +342,6 @@
         [tmpPath setLinestylePattern:_pattern count:_patternCount phase:_patternPhase];
     }
     [_model addObject:tmpPath];
-    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 //
 // AQTPatch
@@ -394,7 +376,6 @@
         _polygonPointCount = 0;
         [self moveToVertexPoint:point];
     }
-    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 - (void)addPolygonWithPoints:(NSPoint *)points pointCount:(int32_t)pc
@@ -408,7 +389,6 @@
     //[tmpPath setLineCapStyle:_capStyle];
     [tmpPath setFillColor:_color];
     [_model addObject:tmpPath];
-    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 - (void)addFilledRect:(NSRect)aRect
@@ -437,7 +417,6 @@
     [tmpImage setClipRect:_clipRect];
     [tmpImage setClipped:_isClipped];
     [_model addObject:tmpImage];
-    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 // FIXME: Deprecated form, rewrite AQTImage
@@ -449,7 +428,6 @@
     [tmpImage setClipRect:destBounds]; // Override _clipRect to restore old behaviour
     [tmpImage setClipped:YES];
     [_model addObject:tmpImage];
-    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize
