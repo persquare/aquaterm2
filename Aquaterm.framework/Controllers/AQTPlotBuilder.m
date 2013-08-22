@@ -74,7 +74,7 @@
 - (id)initWithPlot:(id <AQTRendering>)plot
 {
     self = [super init];
-    if(self) {
+    if (self) {
         _plot = plot;
         // FIXME: Default plot size + preferences, NOT NSZeroSize!
         _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
