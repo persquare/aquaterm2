@@ -41,6 +41,7 @@ Actions:
   - Symbol font
   + Does UTF8 input work? (YES)
   - Set up unit testing
+  + Give path separate stroke and fill colors, but support current semantics
   
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
