@@ -1,0 +1,12 @@
+import sys, objc
+import Foundation
+from . import _metadata
+
+sys.modules['aquaterm'] = objc.ObjCLazyModule('Aquaterm',
+     "com.github.aquaterm.Aquaterm",
+     objc.pathForFramework("__PATH__"),
+     _metadata.__dict__, None, {
+         '__doc__': __doc__,
+         'objc': objc,
+         '__path__': __path__,
+     }, (Foundation,))

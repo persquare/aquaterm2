@@ -3,6 +3,8 @@
 static NSString *AQTModelObjectsKey = @"AQTModelObjectsKey";
 static NSString *AQTTitleKey = @"AQTTitleKey";
 static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
+static NSString *AQTDirtyRectKey = @"AQTDirtyRectKey";
+static NSString *AQTDirtyKey = @"AQTDirtyKey";
 
 @implementation AQTModel
 /**"
@@ -35,6 +37,8 @@ static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
     [coder encodeObject:_modelObjects forKey:AQTModelObjectsKey];
     [coder encodeObject:_title forKey:AQTTitleKey];
     [coder encodeSize:_canvasSize forKey:AQTCanvasSizeKey];
+    [coder encodeRect:_dirtyRect forKey:AQTDirtyRectKey];
+    [coder encodeBool:_dirty forKey:AQTDirtyKey];
 }
 
 -(id)initWithCoder:(NSCoder *)coder
@@ -44,6 +48,8 @@ static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
         _modelObjects = [coder decodeObjectForKey:AQTModelObjectsKey];
         _title = [coder decodeObjectForKey:AQTTitleKey];
         _canvasSize = [coder decodeSizeForKey:AQTCanvasSizeKey];
+        _dirtyRect = [coder decodeRectForKey:AQTDirtyRectKey];
+        _dirty = [coder decodeBoolForKey:AQTDirtyKey];
     }
     return self;
 }
@@ -62,25 +68,17 @@ static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
   return (int32_t)[_modelObjects count];
 }
 
--(void)setColor:(AQTColor *)color
-{
-    [super setColor:color];
-    _dirty = TRUE;
-}
-
 /**"
 *** Add any subclass of AQTGraphic to the collection of objects.
 "**/
 -(void)addObject:(AQTGraphic *)graphic
 {
-    [_modelObjects addObject:graphic];
-    _dirty = TRUE;
+  [_modelObjects addObject:graphic];
 }
 
 -(void)addObjectsFromArray:(NSArray *)graphics
 {
-    [_modelObjects addObjectsFromArray:graphics];
-    _dirty = TRUE;
+   [_modelObjects addObjectsFromArray:graphics];
 }
 
 -(NSArray *)modelObjects
@@ -90,14 +88,12 @@ static NSString *AQTCanvasSizeKey = @"AQTCanvasSizeKey";
 
 -(void)removeAllObjects
 {
-    [_modelObjects removeAllObjects];
-    _dirty = TRUE;
+   [_modelObjects removeAllObjects];
 }
 
 -(void)removeObjectAtIndex:(uint32_t)i
 {
-    [_modelObjects removeObjectAtIndex:i];
-    _dirty = TRUE;
+   [_modelObjects removeObjectAtIndex:i];
 }
 
 @end

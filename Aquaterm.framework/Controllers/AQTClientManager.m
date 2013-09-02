@@ -231,16 +231,17 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
         newPlot = [_server addAQTClient:key
                                    name:[[NSProcessInfo processInfo] processName]
                                     pid:[[NSProcessInfo processInfo] processIdentifier]];
-        builder = [[AQTPlotBuilder alloc] initWithPlot:newPlot];
-        self.builders[key] = builder;
-        self.activeBuilder = builder;
-
     }
     @catch (NSException *exception) {
         [self _aqtHandlerError:exception];
         newPlot = nil;
     }
-    
+
+    if (newPlot) {
+        builder = [[AQTPlotBuilder alloc] initWithPlot:newPlot];
+        self.builders[key] = builder;
+        self.activeBuilder = builder;
+    }
     return builder;
 }
 

@@ -8,9 +8,7 @@ static NSString *AQTPatternCountKey = @"AQTPatternCountKey";
 static NSString *AQTPatternPhaseKey = @"AQTPatternPhaseKey";
 static NSString *AQTLinewidthKey = @"AQTLinewidthKey";
 static NSString *AQTLineCapStyleKey = @"AQTLineCapStyleKey";
-static NSString *AQTClosedKey = @"AQTFilledKey";
-static NSString *AQTFillColorKey = @"AQTFillColorKey";
-
+static NSString *AQTFilledKey = @"AQTFilledKey";
 
 @implementation AQTPath
 
@@ -59,7 +57,7 @@ static NSString *AQTFillColorKey = @"AQTFillColorKey";
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [super encodeWithCoder:coder];
-    [coder encodeBool:self.closed forKey:AQTClosedKey];
+    [coder encodeBool:self.filled forKey:AQTFilledKey];
     [coder encodeInt32:self.lineCapStyle forKey:AQTLineCapStyleKey];
     [coder encodeFloat:self.linewidth forKey:AQTLinewidthKey];
     [coder encodeInt32:pointCount forKey:AQTPointCountKey];
@@ -69,14 +67,13 @@ static NSString *AQTFillColorKey = @"AQTFillColorKey";
         [coder encodeFloat:pattern[i] forKey:[NSString stringWithFormat:@"%@%d", AQTPatternKey, i]];
     }
     [coder encodeFloat:patternPhase forKey:AQTPatternPhaseKey];
-    [coder encodeObject:_fillColor forKey:AQTFillColorKey];
 }
 
 -(id)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self) {
-        _closed = [coder decodeBoolForKey:AQTClosedKey];
+        self.filled = [coder decodeBoolForKey:AQTFilledKey];
         self.lineCapStyle = [coder decodeInt32ForKey:AQTLineCapStyleKey];
         self.linewidth = [coder decodeFloatForKey:AQTLinewidthKey];
         pointCount = [coder decodeInt32ForKey:AQTPointCountKey];
@@ -88,7 +85,6 @@ static NSString *AQTFillColorKey = @"AQTFillColorKey";
         for(int i = 0; i < patternCount; i++) {
             pattern[i] = [coder decodeFloatForKey:[NSString stringWithFormat:@"%@%d", AQTPatternKey, i]];
         }
-        _fillColor = [coder decodeObjectForKey:AQTFillColorKey];
     }
     return self;
 }
@@ -110,36 +106,5 @@ static NSString *AQTFillColorKey = @"AQTFillColorKey";
 - (BOOL)hasPattern
 {
    return (patternCount > 0) ;
-}
-
-- (void)closePath
-{
-    _closed = YES;
-}
-
-// Historically, a `path` implied a stroked path with `color` (from base class)
-// and optionally (boolean `filled`) filled interior with `color` (same as stroke).
-// By giving the AQTPath separate fill and stroke colors we get full flexibility,
-// and can keep the original behaviour.
-
-- (void)setFillColor:(AQTColor *)color
-{
-    _fillColor = color;
-}
-
-- (AQTColor *)fillColor
-{
-    return _fillColor;
-}
-
-- (BOOL)stroked
-{
-    return self.color && !(self.linewidth == 0);
-}
-
-
-- (BOOL)filled
-{
-    return (self.fillColor != nil);
 }
 @end

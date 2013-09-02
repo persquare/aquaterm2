@@ -16,5 +16,5 @@
 @property float alpha;
 - (id)initWithRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 - (id)initWithRed:(float)r green:(float)g blue:(float)b;
-- (BOOL)isEqualToColor:(AQTColor *)color;
+
 @end

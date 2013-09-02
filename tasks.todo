@@ -42,6 +42,8 @@ Actions:
   + Does UTF8 input work? (YES)
   - Set up unit testing
   + Give path separate stroke and fill colors, but support current semantics
+  - Fix python module build phase script to work for deployment and install too
+  - Get rid of C-isms like path arrays and replace with NSMutableArray
   
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿

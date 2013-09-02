@@ -10,6 +10,7 @@
 // #import "AQTClientManager.h"
 // #import "AQTPlotBuilder.h"
 #import <Aquaterm/AQTAdapter.h>
+#import "centrality.h"
 
 void demo(AQTAdapter *adapter);
 void simple(AQTAdapter *adapter);
@@ -19,11 +20,15 @@ int main(int argc, const char * argv[])
 
     @autoreleasepool {
         AQTAdapter *adapter = [[AQTAdapter alloc] init];
-        demo(adapter);
+        // demo(adapter);
         // simple(adapter);
-        [adapter renderPlot];
-        [adapter closePlot];
-
+        for (int i=0; i<6; i++) {
+            [adapter openPlotWithIndex:i+1];
+            [adapter setPlotSize:NSMakeSize(600, 600)];
+            centrality(adapter, i);
+            [adapter renderPlot];
+            [adapter closePlot];
+        }
          while (1) {
             sleep(1);
         }
@@ -33,6 +38,18 @@ int main(int argc, const char * argv[])
 
 void simple(AQTAdapter *adapter)
 {
+    NSPoint points[128];
+    NSPoint pos;
+    int32_t i;
+    float f;
+    double pi = 4.0*atan(1.0);
+    unsigned char rgbImage[12]={
+        255, 0, 0,
+        0, 255, 0,
+        0, 0, 255,
+        0, 0, 0
+    };
+    
     [adapter openPlotWithIndex:1];
     [adapter setPlotSize:NSMakeSize(620,420)];
     [adapter setPlotTitle:@"Testview"];

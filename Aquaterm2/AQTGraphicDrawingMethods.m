@@ -18,20 +18,15 @@
  this is ugly, but I can't see a simple way to do it without affecting performance. */
 static float _aqtMinimumLinewidth;
 
-@implementation AQTColor (ColorConversion)
-
-- (NSColor *)nsColor
+@implementation AQTGraphic (AQTGraphicDrawingMethods)
+- (void)setAQTColor
 {
-   return [NSColor colorWithCalibratedRed:self.red
-                                    green:self.green
-                                     blue:self.blue
-                                    alpha:self.alpha];
+    [[NSColor colorWithCalibratedRed:self.color.red
+                               green:self.color.green
+                                blue:self.color.blue
+                               alpha:self.color.alpha] set];
 }
 
-@end
-
-
-@implementation AQTGraphic (AQTGraphicDrawingMethods)
 // Dirty rect is in canvas coordinates
 -(void)renderInRect:(NSRect)dirtyRect
 {
@@ -95,7 +90,7 @@ static float _aqtMinimumLinewidth;
     }
         
     // Model object is responsible for background...
-    [[self.color nsColor] set];
+    [self setAQTColor];
     NSRectFill(dirtyRect);
     
     for (AQTGraphic *graphic in self.modelObjects) {
@@ -169,7 +164,7 @@ static float _aqtMinimumLinewidth;
         return;
     }
     
-    [[self.color nsColor] set];
+    [self setAQTColor];
     if (self.clipped) {
         [NSGraphicsContext saveGraphicsState];
         NSRectClip(self.clippedBounds);
@@ -225,14 +220,13 @@ static float _aqtMinimumLinewidth;
     if (!NSIntersectsRect(dirtyRect, self.clippedBounds)) {
         return;
     }
-    [[self.color nsColor] set];
+    [self setAQTColor];
     if (self.clipped) {
         [NSGraphicsContext saveGraphicsState];
         NSRectClip(self.clippedBounds);
     }
     [self.cache stroke];
     if (self.filled) {
-        [[self.fillColor nsColor] set];
         [self.cache fill];
     }
     if (self.clipped) {
@@ -272,6 +266,7 @@ static float _aqtMinimumLinewidth;
 
 -(NSRect)updateBounds
 {
+    NSAffineTransform *transf = [NSAffineTransform transform];
     NSRect tmpBounds = self.bounds;
     if (!self.fitBounds) {
         // Make a path from bounds rect, transform the path,

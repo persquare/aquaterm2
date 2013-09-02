@@ -17,22 +17,35 @@
 
 
 @implementation AQTPlotBuilder
-- (void)setDefaultValues
+- (void)_aqtPlotBuilderSetDefaultValues
 {
-    // FIXME: From user preferences
-    _fontName = @"Times-Roman";
-    _fontSize = 14.0;
-    _defaultCanvasSize = NSMakeSize(1024.0, 768.0);
-    // Hard defaults
     _color.red = 0.0;
     _color.green = 0.0;
     _color.blue = 0.0;
     _color.alpha = 1.0;
+    _fontName = @"Times-Roman";
+    _fontSize = 14.0;
     _linewidth = 1.0;
+    // _transform.m11 = 1.0;
+    // _transform.m22 = 1.0;
     _transform = [NSAffineTransform transform];
     _hasPattern = NO;
     _patternCount = 0;
     _patternPhase = 0.0;
+}
+
+- (void)_aqtPlotBuilderSetModelIsDirty:(BOOL)isDirty
+{
+    // Any coalescing of render call may be performed here (use timer)
+    
+    // It ain't dirty until the fat lady has a size
+    _modelIsDirty = isDirty && _hasSize;
+#ifdef DEBUG
+    if (_modelIsDirty && NSEqualSizes(NSZeroSize, [_model canvasSize]))
+    {
+        [NSException raise:@"AQTDebugException" format:@"%@", NSStringFromSelector(_cmd)];
+    }
+#endif
 }
 
 - (BOOL)_flushPolylineBuffer
@@ -75,11 +88,13 @@
 - (id)initWithPlot:(id <AQTRendering>)plot
 {
     self = [super init];
-    if (self) {
+    if(self) {
         _plot = plot;
-        [self setDefaultValues];
-        _model = [[AQTModel alloc] initWithCanvasSize:_defaultCanvasSize];
+        // FIXME: Default plot size + preferences, NOT NSZeroSize!
+        _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
+        [self _aqtPlotBuilderSetDefaultValues];
         _colormap = [[AQTColorMap alloc] initWithColormapSize:AQT_COLORMAP_SIZE];
+        [self _aqtPlotBuilderSetModelIsDirty:NO];
     }
     return self;
 }
@@ -96,12 +111,12 @@
 
 - (void)reset
 {
-    [self setDefaultValues];
+    [self _aqtPlotBuilderSetDefaultValues];
 }
 
 - (BOOL)modelIsDirty
 {
-    return _model.dirty;
+    return _modelIsDirty;
 }
 
 - (AQTModel *)model
@@ -112,6 +127,7 @@
 
 - (void)setSize:(NSSize)canvasSize
 {
+    _hasSize = !NSEqualSizes(NSZeroSize, canvasSize);
     [_model setCanvasSize:canvasSize];
 }
 
@@ -141,7 +157,9 @@
 
 - (void)setColor:(AQTColor *)newColor
 {
-    if ([newColor isEqualToColor:_color]) {
+    // FIXME: Use AQTEqualColor instead
+    if ((newColor.red != _color.red) || (newColor.green != _color.green) || (newColor.blue != _color.blue) || (newColor.alpha != _color.alpha))
+    {
         [self _flushBuffers];
         _color = newColor;
     }
@@ -149,9 +167,12 @@
 
 - (void)setBackgroundColor:(AQTColor *)newColor
 {
-    // FIXME: Move test to model
-    if ([newColor isEqualToColor:_model.color]) {
+    AQTColor *oldColor = [_model color];
+    // FIXME: Pointless comparison. Use AQTEqualColor instead
+    if ((newColor.red != oldColor.red) || (newColor.green != oldColor.green) || (newColor.blue != oldColor.blue) || (newColor.alpha != oldColor.alpha))
+    {
         [_model setColor:newColor];
+        [self _aqtPlotBuilderSetModelIsDirty:YES];
     }
 }
 
@@ -278,6 +299,7 @@
     [lb setFontName:_fontName];
     [lb setFontSize:_fontSize];
     [_model addObject:lb];
+    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 //
 // AQTPath
@@ -317,6 +339,7 @@
         _polylinePointCount = 0;
         [self moveToPoint:point];
     }
+    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 // This is where all line-drawing  ends up eventually.
@@ -336,6 +359,7 @@
         [tmpPath setLinestylePattern:_pattern count:_patternCount phase:_patternPhase];
     }
     [_model addObject:tmpPath];
+    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 //
 // AQTPatch
@@ -370,6 +394,7 @@
         _polygonPointCount = 0;
         [self moveToVertexPoint:point];
     }
+    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 - (void)addPolygonWithPoints:(NSPoint *)points pointCount:(int32_t)pc
@@ -381,8 +406,9 @@
     [tmpPath setColor:_color];
     [tmpPath setLinewidth:0.25]; // FIXME: What to do about the see-through edges?
     //[tmpPath setLineCapStyle:_capStyle];
-    [tmpPath setFillColor:_color];
+    [tmpPath setFilled:YES];
     [_model addObject:tmpPath];
+    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 - (void)addFilledRect:(NSRect)aRect
@@ -411,6 +437,7 @@
     [tmpImage setClipRect:_clipRect];
     [tmpImage setClipped:_isClipped];
     [_model addObject:tmpImage];
+    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 // FIXME: Deprecated form, rewrite AQTImage
@@ -422,6 +449,7 @@
     [tmpImage setClipRect:destBounds]; // Override _clipRect to restore old behaviour
     [tmpImage setClipped:YES];
     [_model addObject:tmpImage];
+    [self _aqtPlotBuilderSetModelIsDirty:YES];
 }
 
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize
