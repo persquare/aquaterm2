@@ -82,8 +82,12 @@
 #pragma mark ==== AQTRendering methods ====
 - (void)setModel:(bycopy AQTModel *)aModel
 {
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), aModel);
     _model = aModel;
+
+    NSWindow *docWindow = [self.windowControllers[0] window];
+    [docWindow setContentSize:_model.canvasSize];
+    [docWindow setTitle:_model.title];
+    
     [self showWindows];
 }
 
