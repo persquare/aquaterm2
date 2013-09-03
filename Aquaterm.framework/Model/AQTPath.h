@@ -9,11 +9,7 @@
 
 @interface AQTPath : AQTGraphic 
 {
-    NSPointArray path;
-    NSPointArray dynamicPathStore;
-    NSPoint staticPathStore[STATIC_POINT_STORAGE];
- 
-    int32_t pointCount;
+    NSMutableArray *_path;
     
     float pattern[MAX_PATTERN_COUNT];
     int32_t patternCount;

@@ -185,7 +185,13 @@ static float _aqtMinimumLinewidth;
     int32_t i;
     float lw = self.filled?1.0:self.linewidth; // FIXME: this is a hack to avoid tiny gaps between filled patches
     NSBezierPath *scratch = [NSBezierPath bezierPath];
-    [scratch appendBezierPathWithPoints:path count:pointCount];
+    for (NSValue *v in _path) {
+        if (scratch.isEmpty) {
+            [scratch moveToPoint:v.pointValue];
+        } else {
+            [scratch lineToPoint:v.pointValue];
+        }
+    }
     [scratch setLineJoinStyle:NSRoundLineJoinStyle]; //CM FIXME - This looks like a bug. This explains why join styles don't work in the TestView... //CM
     [scratch setLineCapStyle:self.lineCapStyle];
     [scratch setLineWidth:(lw<_aqtMinimumLinewidth)?_aqtMinimumLinewidth:lw];
@@ -198,8 +204,10 @@ static float _aqtMinimumLinewidth;
         [scratch closePath];
     }
     // FIXME: Add closed path handling from Public API and onwards...
-    if (NSEqualPoints(path[0], path[pointCount-1])){
-        // This looks like a closed path..., make it so.
+    //        This looks like a closed path..., make it so.
+    NSValue *v0 = _path[0];
+    NSValue *vLast = _path.lastObject;
+    if (NSEqualPoints(v0.pointValue,  vLast.pointValue)){
         [scratch closePath];
     }
     [self setCache:scratch];
