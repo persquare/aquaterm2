@@ -91,4 +91,33 @@
     [self showWindows];
 }
 
+#pragma mark ==== Helpers ====
+
+- (BOOL)putOnPasteboard:(id)object
+{
+    if (!object && ![object conformsToProtocol:@protocol(NSPasteboardWriting)]) {
+        return NO;
+    }
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    return [pasteboard writeObjects:@[object]];
+}
+
+#pragma mark ==== Action methods ====
+
+- (void)copy:(id)sender
+{
+    NSWindow *docWindow = [self.windowControllers[0] window];
+    NSView *canvasView = docWindow.contentView;
+    NSRect viewBounds = canvasView.bounds;
+    
+    NSData* theData = [canvasView dataWithPDFInsideRect:viewBounds];
+    NSPDFImageRep* pdfRep = [NSPDFImageRep imageRepWithData:theData];
+    NSImage* pdfImage = [[NSImage alloc] initWithSize:viewBounds.size];
+    [pdfImage addRepresentation:pdfRep];
+    
+    [self putOnPasteboard:pdfImage];
+}
+
+
 @end
