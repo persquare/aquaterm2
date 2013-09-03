@@ -182,7 +182,6 @@ static float _aqtMinimumLinewidth;
 @implementation AQTPath (AQTPathDrawing)
 -(void)updateCache
 {
-    int32_t i;
     float lw = self.filled?1.0:self.linewidth; // FIXME: this is a hack to avoid tiny gaps between filled patches
     NSBezierPath *scratch = [NSBezierPath bezierPath];
     for (NSValue *v in _path) {
@@ -195,9 +194,14 @@ static float _aqtMinimumLinewidth;
     [scratch setLineJoinStyle:NSRoundLineJoinStyle]; //CM FIXME - This looks like a bug. This explains why join styles don't work in the TestView... //CM
     [scratch setLineCapStyle:self.lineCapStyle];
     [scratch setLineWidth:(lw<_aqtMinimumLinewidth)?_aqtMinimumLinewidth:lw];
-    if([self hasPattern]) {
+    
+    if (self.hasPattern) {
+        NSUInteger patternCount = _pattern.count;
         CGFloat temppat[patternCount];
-        for( i = 0; i < patternCount; i++) temppat[i] = pattern[i];
+        int32_t i = 0;
+        for (NSNumber *p in _pattern) {
+            temppat[i++] = p.floatValue;
+        }
         [scratch setLineDash:temppat count:patternCount phase:patternPhase];
     }
     if (self.filled) {

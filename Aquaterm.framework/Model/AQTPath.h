@@ -2,17 +2,14 @@
 #import "AQTGraphic.h"
 
 /*" This balances the fixed size of the objects vs. the need for dynamic allocation of storage. "*/
-#define STATIC_POINT_STORAGE 24
+#define INITIAL_POINT_STORAGE 24
 
-#define MAX_PATTERN_COUNT 8
-// FIXME: Base actual number on tests
+#define INITIAL_PATTERN_STORAGE 8
 
 @interface AQTPath : AQTGraphic 
 {
     NSMutableArray *_path;
-    
-    float pattern[MAX_PATTERN_COUNT];
-    int32_t patternCount;
+    NSMutableArray *_pattern;
     float patternPhase;
 }
 

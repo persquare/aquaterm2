@@ -3,7 +3,6 @@
 
 static NSString *AQTPathKey = @"AQTPathKey";
 static NSString *AQTPatternKey = @"AQTPatternKey";
-static NSString *AQTPatternCountKey = @"AQTPatternCountKey";
 static NSString *AQTPatternPhaseKey = @"AQTPatternPhaseKey";
 static NSString *AQTLinewidthKey = @"AQTLinewidthKey";
 static NSString *AQTLineCapStyleKey = @"AQTLineCapStyleKey";
@@ -14,7 +13,7 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
 -(id)initWithPoints:(NSPointArray)points pointCount:(int32_t)pc;
 {
   if ((self = [super init])) {
-      _path = [NSMutableArray arrayWithCapacity:STATIC_POINT_STORAGE];
+      _path = [NSMutableArray arrayWithCapacity:INITIAL_POINT_STORAGE];
       for (int32_t i = 0; i < pc; i++) {
           _path[i] = [NSValue valueWithPoint:points[i]];
       }
@@ -24,7 +23,7 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
 
 -(id)init
 {
-  return [self initWithPoints:nil pointCount:0];
+    return [self initWithPoints:nil pointCount:0];
 }
 
 
@@ -36,10 +35,7 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
     [coder encodeFloat:self.linewidth forKey:AQTLinewidthKey];
     [coder encodeObject:_path forKey:AQTPathKey];
     
-    [coder encodeInt32:patternCount forKey:AQTPatternCountKey];
-    for(int i = 0; i < patternCount; i++) {
-        [coder encodeFloat:pattern[i] forKey:[NSString stringWithFormat:@"%@%d", AQTPatternKey, i]];
-    }
+    [coder encodeObject:_pattern forKey:AQTPatternKey];
     [coder encodeFloat:patternPhase forKey:AQTPatternPhaseKey];
 }
 
@@ -52,30 +48,27 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
         self.linewidth = [coder decodeFloatForKey:AQTLinewidthKey];
         _path = [coder decodeObjectForKey:AQTPathKey];
         
-        patternCount = [coder decodeInt32ForKey:AQTPatternCountKey];
-        for(int i = 0; i < patternCount; i++) {
-            pattern[i] = [coder decodeFloatForKey:[NSString stringWithFormat:@"%@%d", AQTPatternKey, i]];
-        }
+        _pattern = [coder decodeObjectForKey:AQTPatternKey];
+        patternPhase = [coder decodeFloatForKey:AQTPatternPhaseKey];
     }
     return self;
 }
 
 - (void)setLinestylePattern:(const float *)newPattern count:(int32_t)newCount phase:(float)newPhase 
 {
-    // Create a local copy of the pattern.
-    if (newCount < 0) // Sanity check
+    if (newCount <= 0) {
+        _pattern = nil;
         return;
-    // constrain count to MAX_PATTERN_COUNT
-    newCount = (newCount>MAX_PATTERN_COUNT)?MAX_PATTERN_COUNT:newCount;
-    for (int32_t i=0; i<newCount; i++) {
-        pattern[i] = newPattern[i];
     }
-    patternCount = newCount;
+    _pattern = [NSMutableArray arrayWithCapacity:INITIAL_PATTERN_STORAGE];
+    for (int32_t i = 0; i < newCount; i++) {
+        _pattern[i] = @(newPattern[i]);
+    }
     patternPhase = newPhase;
 }
 
 - (BOOL)hasPattern
 {
-   return (patternCount > 0) ;
+   return (_pattern && _pattern.count > 0) ;
 }
 @end

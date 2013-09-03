@@ -19,6 +19,7 @@
 // FIXME: establish some "optimal" value
 #define MAX_POLYLINE_POINTS 64
 #define MAX_POLYGON_POINTS 256
+#define MAX_PATTERN_COUNT 8
 
 @class AQTModel, AQTColorMap;
 @interface AQTPlotBuilder : NSObject
