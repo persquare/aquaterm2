@@ -84,9 +84,8 @@
 {
     _model = aModel;
 
-    NSWindow *docWindow = [self.windowControllers[0] window];
-    [docWindow setContentSize:_model.canvasSize];
-    [docWindow setTitle:_model.title];
+    [self.window setContentSize:_model.canvasSize];
+    [self.window setTitle:_model.title];
     
     [self showWindows];
 }
@@ -103,12 +102,40 @@
     return [pasteboard writeObjects:@[object]];
 }
 
+- (NSWindow *)window
+{
+    return [self.windowControllers[0] window];
+}
+
+- (NSView *)contentView
+{
+    return [self.window contentView];
+}
+
+
+- (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings
+                                           error:(NSError **)outError
+{
+    NSPrintOperation *po = nil;
+    
+    @try {
+        po = [NSPrintOperation printOperationWithView:self.contentView];
+    }
+    @catch (NSException *exception) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"Foo" code:42 userInfo:nil];
+        }
+    }
+    
+    return po;
+}
+
+
 #pragma mark ==== Action methods ====
 
 - (void)copy:(id)sender
 {
-    NSWindow *docWindow = [self.windowControllers[0] window];
-    NSView *canvasView = docWindow.contentView;
+    NSView *canvasView = self.contentView;
     NSRect viewBounds = canvasView.bounds;
     
     NSData* theData = [canvasView dataWithPDFInsideRect:viewBounds];
