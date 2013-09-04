@@ -16,3 +16,4 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+python/aquaterm/__init__.py

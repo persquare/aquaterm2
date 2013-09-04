@@ -2,9 +2,7 @@
 
 
 static NSString *AQTPathKey = @"AQTPathKey";
-static NSString *AQTPointCountKey = @"AQTPointCountKey";
 static NSString *AQTPatternKey = @"AQTPatternKey";
-static NSString *AQTPatternCountKey = @"AQTPatternCountKey";
 static NSString *AQTPatternPhaseKey = @"AQTPatternPhaseKey";
 static NSString *AQTLinewidthKey = @"AQTLinewidthKey";
 static NSString *AQTLineCapStyleKey = @"AQTLineCapStyleKey";
@@ -12,31 +10,12 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
 
 @implementation AQTPath
 
--(int32_t)aqtSetupPathStoreForPointCount:(int32_t)pc
-{
-    // Use static store as default for up to STATIC_POINT_STORAGE points,
-    // switch to heap for longer paths. Fallback to static store and truncate
-    // path if malloc fails.
-    if (pc > STATIC_POINT_STORAGE) {
-        dynamicPathStore = malloc(pc * sizeof(NSPoint));
-        if (!dynamicPathStore) {
-            // Failed to allocate memory, fallback to static store and truncate
-            NSLog(@"Error: Couldn't allocate memory, path clipped to %d points", STATIC_POINT_STORAGE);
-            pc = STATIC_POINT_STORAGE;
-        }
-    }
-    path = (dynamicPathStore)?dynamicPathStore:staticPathStore;
-
-    return pc;
-}
-
 -(id)initWithPoints:(NSPointArray)points pointCount:(int32_t)pc;
 {
-  int32_t i;
   if ((self = [super init])) {
-      pointCount = [self aqtSetupPathStoreForPointCount:pc];
-      for (i = 0; i < pointCount; i++) {
-          path[i] = points[i];
+      _path = [NSMutableArray arrayWithCapacity:INITIAL_POINT_STORAGE];
+      for (int32_t i = 0; i < pc; i++) {
+          _path[i] = [NSValue valueWithPoint:points[i]];
       }
   }
   return self;
@@ -44,15 +23,9 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
 
 -(id)init
 {
-  return [self initWithPoints:nil pointCount:0];
+    return [self initWithPoints:nil pointCount:0];
 }
 
--(void)dealloc
-{
-  if (path == dynamicPathStore) {
-     free(dynamicPathStore);
-  }
-}
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
@@ -60,12 +33,9 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
     [coder encodeBool:self.filled forKey:AQTFilledKey];
     [coder encodeInt32:self.lineCapStyle forKey:AQTLineCapStyleKey];
     [coder encodeFloat:self.linewidth forKey:AQTLinewidthKey];
-    [coder encodeInt32:pointCount forKey:AQTPointCountKey];
-    [coder encodeBytes:(uint8_t *)path length:pointCount*sizeof(NSPoint) forKey:AQTPathKey];
-    [coder encodeInt32:patternCount forKey:AQTPatternCountKey];
-    for(int i = 0; i < patternCount; i++) {
-        [coder encodeFloat:pattern[i] forKey:[NSString stringWithFormat:@"%@%d", AQTPatternKey, i]];
-    }
+    [coder encodeObject:_path forKey:AQTPathKey];
+    
+    [coder encodeObject:_pattern forKey:AQTPatternKey];
     [coder encodeFloat:patternPhase forKey:AQTPatternPhaseKey];
 }
 
@@ -76,35 +46,29 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
         self.filled = [coder decodeBoolForKey:AQTFilledKey];
         self.lineCapStyle = [coder decodeInt32ForKey:AQTLineCapStyleKey];
         self.linewidth = [coder decodeFloatForKey:AQTLinewidthKey];
-        pointCount = [coder decodeInt32ForKey:AQTPointCountKey];
-        [self aqtSetupPathStoreForPointCount:pointCount];
-        NSUInteger rpc;
-        const uint8_t *tmpBuffer = [coder decodeBytesForKey:AQTPathKey returnedLength:&rpc];
-        memcpy(path, tmpBuffer, rpc);
-        patternCount = [coder decodeInt32ForKey:AQTPatternCountKey];
-        for(int i = 0; i < patternCount; i++) {
-            pattern[i] = [coder decodeFloatForKey:[NSString stringWithFormat:@"%@%d", AQTPatternKey, i]];
-        }
+        _path = [coder decodeObjectForKey:AQTPathKey];
+        
+        _pattern = [coder decodeObjectForKey:AQTPatternKey];
+        patternPhase = [coder decodeFloatForKey:AQTPatternPhaseKey];
     }
     return self;
 }
 
 - (void)setLinestylePattern:(const float *)newPattern count:(int32_t)newCount phase:(float)newPhase 
 {
-    // Create a local copy of the pattern.
-    if (newCount < 0) // Sanity check
+    if (newCount <= 0) {
+        _pattern = nil;
         return;
-    // constrain count to MAX_PATTERN_COUNT
-    newCount = (newCount>MAX_PATTERN_COUNT)?MAX_PATTERN_COUNT:newCount;
-    for (int32_t i=0; i<newCount; i++) {
-        pattern[i] = newPattern[i];
     }
-    patternCount = newCount;
+    _pattern = [NSMutableArray arrayWithCapacity:INITIAL_PATTERN_STORAGE];
+    for (int32_t i = 0; i < newCount; i++) {
+        _pattern[i] = @(newPattern[i]);
+    }
     patternPhase = newPhase;
 }
 
 - (BOOL)hasPattern
 {
-   return (patternCount > 0) ;
+   return (_pattern && _pattern.count > 0) ;
 }
 @end
