@@ -8,7 +8,7 @@
 
 #import "AQTAdapter.h"
 #import "AQTClientManager.h"
-#import "AQTPlotBuilder.h"
+#import "AQTPlotState.h"
 #import "AQTModel.h"
 #import "AQTLabel.h"
 #import "AQTPath.h"
@@ -125,7 +125,7 @@
 - (BOOL)selectPlotWithIndex:(int32_t)refNum
 {
     BOOL didChangePlot = NO;
-    AQTPlotBuilder *tmpBuilder = [_clientManager selectPlotWithIndex:refNum];
+    AQTPlotState *tmpBuilder = [_clientManager selectPlotWithIndex:refNum];
     if (tmpBuilder != nil)
     {
         _selectedBuilder = tmpBuilder;

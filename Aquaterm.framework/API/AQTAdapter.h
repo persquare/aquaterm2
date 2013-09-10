@@ -24,12 +24,12 @@ extern const int32_t AQTAlignBaseline;
 extern const int32_t AQTAlignBottom;
 extern const int32_t AQTAlignTop;
 
-@class AQTPlotBuilder, AQTClientManager;
+@class AQTPlotState, AQTClientManager;
 @interface AQTAdapter : NSObject
 {
    /*" All instance variables are private. "*/
    AQTClientManager *_clientManager;
-   AQTPlotBuilder *_selectedBuilder;
+   AQTPlotState *_selectedBuilder;
    id _aqtReserved1;
    id _aqtReserved2;
 }

@@ -19,8 +19,8 @@
 		432528FE17BE72D800084E34 /* AQTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 432528E417BE72D800084E34 /* AQTConstants.m */; };
 		432528FF17BE72D800084E34 /* AQTClientManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 432528E617BE72D800084E34 /* AQTClientManager.h */; };
 		4325290017BE72D800084E34 /* AQTClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 432528E717BE72D800084E34 /* AQTClientManager.m */; };
-		4325290117BE72D800084E34 /* AQTPlotBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 432528E817BE72D800084E34 /* AQTPlotBuilder.h */; };
-		4325290217BE72D800084E34 /* AQTPlotBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 432528E917BE72D800084E34 /* AQTPlotBuilder.m */; };
+		4325290117BE72D800084E34 /* AQTPlotState.h in Headers */ = {isa = PBXBuildFile; fileRef = 432528E817BE72D800084E34 /* AQTPlotState.h */; };
+		4325290217BE72D800084E34 /* AQTPlotState.m in Sources */ = {isa = PBXBuildFile; fileRef = 432528E917BE72D800084E34 /* AQTPlotState.m */; };
 		4325290317BE72D800084E34 /* AQTColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 432528EB17BE72D800084E34 /* AQTColor.h */; };
 		4325290417BE72D800084E34 /* AQTColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 432528EC17BE72D800084E34 /* AQTColor.m */; };
 		4325290517BE72D800084E34 /* AQTColorMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 432528ED17BE72D800084E34 /* AQTColorMap.h */; };
@@ -117,8 +117,8 @@
 		432528E417BE72D800084E34 /* AQTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AQTConstants.m; sourceTree = "<group>"; };
 		432528E617BE72D800084E34 /* AQTClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AQTClientManager.h; sourceTree = "<group>"; };
 		432528E717BE72D800084E34 /* AQTClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AQTClientManager.m; sourceTree = "<group>"; };
-		432528E817BE72D800084E34 /* AQTPlotBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AQTPlotBuilder.h; sourceTree = "<group>"; };
-		432528E917BE72D800084E34 /* AQTPlotBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AQTPlotBuilder.m; sourceTree = "<group>"; };
+		432528E817BE72D800084E34 /* AQTPlotState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AQTPlotState.h; sourceTree = "<group>"; };
+		432528E917BE72D800084E34 /* AQTPlotState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AQTPlotState.m; sourceTree = "<group>"; };
 		432528EB17BE72D800084E34 /* AQTColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AQTColor.h; sourceTree = "<group>"; };
 		432528EC17BE72D800084E34 /* AQTColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AQTColor.m; sourceTree = "<group>"; };
 		432528ED17BE72D800084E34 /* AQTColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AQTColorMap.h; sourceTree = "<group>"; };
@@ -268,8 +268,8 @@
 			children = (
 				432528E617BE72D800084E34 /* AQTClientManager.h */,
 				432528E717BE72D800084E34 /* AQTClientManager.m */,
-				432528E817BE72D800084E34 /* AQTPlotBuilder.h */,
-				432528E917BE72D800084E34 /* AQTPlotBuilder.m */,
+				432528E817BE72D800084E34 /* AQTPlotState.h */,
+				432528E917BE72D800084E34 /* AQTPlotState.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -448,7 +448,7 @@
 			files = (
 				432528FC17BE72D800084E34 /* AQTAdapter.h in Headers */,
 				432528FF17BE72D800084E34 /* AQTClientManager.h in Headers */,
-				4325290117BE72D800084E34 /* AQTPlotBuilder.h in Headers */,
+				4325290117BE72D800084E34 /* AQTPlotState.h in Headers */,
 				4325290317BE72D800084E34 /* AQTColor.h in Headers */,
 				4325290517BE72D800084E34 /* AQTColorMap.h in Headers */,
 				4325290717BE72D800084E34 /* AQTGraphic.h in Headers */,
@@ -639,7 +639,7 @@
 				432528FD17BE72D800084E34 /* AQTAdapter.m in Sources */,
 				432528FE17BE72D800084E34 /* AQTConstants.m in Sources */,
 				4325290017BE72D800084E34 /* AQTClientManager.m in Sources */,
-				4325290217BE72D800084E34 /* AQTPlotBuilder.m in Sources */,
+				4325290217BE72D800084E34 /* AQTPlotState.m in Sources */,
 				4325290417BE72D800084E34 /* AQTColor.m in Sources */,
 				4325290617BE72D800084E34 /* AQTColorMap.m in Sources */,
 				4325290817BE72D800084E34 /* AQTGraphic.m in Sources */,

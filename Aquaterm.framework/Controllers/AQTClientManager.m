@@ -8,7 +8,7 @@
 
 #import "AQTClientManager.h"
 // #import "AQTModel.h"
-#import "AQTPlotBuilder.h"
+#import "AQTPlotState.h"
 
 // #import "AQTEventProtocol.h"
 #import "AQTConnecting.h"
@@ -211,9 +211,9 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
 
 #pragma mark === Plot/builder methods ===
 
-- (AQTPlotBuilder *)newPlotWithIndex:(int32_t)refNum
+- (AQTPlotState *)newPlotWithIndex:(int32_t)refNum
 {
-    AQTPlotBuilder *builder = nil;
+    AQTPlotState *builder = nil;
     NSNumber *key = @(refNum);
     id <AQTRendering> newPlot;
 
@@ -238,19 +238,19 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
     }
 
     if (newPlot) {
-        builder = [[AQTPlotBuilder alloc] initWithPlot:newPlot];
+        builder = [[AQTPlotState alloc] initWithPlot:newPlot];
         self.builders[key] = builder;
         self.activeBuilder = builder;
     }
     return builder;
 }
 
-- (AQTPlotBuilder *)selectPlotWithIndex:(int32_t)refNum
+- (AQTPlotState *)selectPlotWithIndex:(int32_t)refNum
 {    
     if (errorState == YES) return nil; // FIXME: Clear error state here too???
     
     NSNumber *key = @(refNum);
-    AQTPlotBuilder *aBuilder = self.builders[key];
+    AQTPlotState *aBuilder = self.builders[key];
     
     if(aBuilder) {
         self.activeBuilder = aBuilder;

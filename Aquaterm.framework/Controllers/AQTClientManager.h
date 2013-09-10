@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 // #import "AQTEventProtocol.h"
 
-@class AQTPlotBuilder;
+@class AQTPlotState;
 // @protocol AQTEventProtocol;
 
 extern NSString *AQUATERM_LOGLEVEL;
@@ -47,8 +47,8 @@ extern NSString *AQUATERM_PATH;
 
 // - (void)logMessage:(NSString *)msg logLevel:(int32_t)level;
 
-- (AQTPlotBuilder *)newPlotWithIndex:(int32_t)refNum;
-- (AQTPlotBuilder *)selectPlotWithIndex:(int32_t)refNum;
+- (AQTPlotState *)newPlotWithIndex:(int32_t)refNum;
+- (AQTPlotState *)selectPlotWithIndex:(int32_t)refNum;
 // - (void)closePlot;
 
 // - (void)renderPlot;
