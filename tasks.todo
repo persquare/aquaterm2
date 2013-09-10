@@ -14,7 +14,9 @@ Outcome vision:
 
 Support:
   Mind dump, quantity over quality. 
-  -
+  - Better preferences
+  - Simplify fonts by providing mappings for serif, sans, mono, +italic, +bold (picking default too)
+  - Inspector for certain properties?
 
 Base functionality:
  - Events
@@ -32,20 +34,27 @@ Extended functionality:
 Bugs:
   - Don't open empty doc on startup
   - Where is Untitled 1?
-  -
+  - Last line segment not drawn?
 
 Actions:
+  - Printing size/margins needs to be set up right
+  - Export to image file
+  - Symbol font
+  - Set up unit testing
+  - Fix python module build phase script to work for deployment and install too
+  - AQTModel -> AQTCanvas makes more sense
+  - Get rid of AQTPlotBuilder
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+  + Print support @done (13-09-05 15:43)
+  + Copy-support @done (13-09-04 10:59)
+  + Display title @done (13-09-03 10:46)
+  + Respect canvas size @done (13-09-03 10:46)
+  + Support copy operation @done (13-09-03 15:31)
+  + Get rid of C-isms like path arrays and replace with NSMutableArray @done (13-09-04 10:59)
   + Split into Framework, Application, and Tool
   + Try out Refactoring functions
   + Make AQTModel iteratable (trivial)
-  - Symbol font
   + Does UTF8 input work? (YES)
-  - Set up unit testing
   + Give path separate stroke and fill colors, but support current semantics
-  - Fix python module build phase script to work for deployment and install too
-  - Get rid of C-isms like path arrays and replace with NSMutableArray
-  
-
-＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
-Archive:
   + Complete this form @done (13-08-16 15:48)
