@@ -25,6 +25,7 @@ int main(int argc, const char * argv[])
         for (int i=0; i<6; i++) {
             [adapter openPlotWithIndex:i+1];
             [adapter setPlotSize:NSMakeSize(600, 600)];
+            [adapter setPlotTitle:[NSString stringWithFormat:@"Plot %d", i+1]];
             centrality(adapter, i);
             [adapter renderPlot];
             [adapter closePlot];
