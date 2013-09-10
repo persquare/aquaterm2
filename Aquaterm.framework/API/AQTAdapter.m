@@ -109,7 +109,7 @@
 {
     // NSLog(@"in --> %@ %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
     // Make sure we can't access any invalid objects:
-    _selectedBuilder = nil;
+    _state = nil;
 }
 
 #pragma mark === Control operations ===
@@ -118,7 +118,7 @@
 /*" Open up a new plot with internal reference number refNum and make it the target for subsequent commands. If the referenced plot already exists, it is selected and cleared. Disables event handling for previously targeted plot. "*/
 - (void)openPlotWithIndex:(int32_t)refNum
 {
-    _selectedBuilder = [_clientManager newPlotWithIndex:refNum];
+    _state = [_clientManager newPlotWithIndex:refNum];
 }
 
 /*" Get the plot referenced by refNum and make it the target for subsequent commands. If no plot exists for refNum, the currently targeted plot remain unchanged. Disables event handling for previously targeted plot. Returns YES on success. "*/
@@ -128,7 +128,7 @@
     AQTPlotState *tmpBuilder = [_clientManager selectPlotWithIndex:refNum];
     if (tmpBuilder != nil)
     {
-        _selectedBuilder = tmpBuilder;
+        _state = tmpBuilder;
         didChangePlot = YES;
     }
     return didChangePlot;
@@ -137,20 +137,20 @@
 /*" Set the limits of the plot area. Must be set %before any drawing command following an #openPlotWithIndex: or #clearPlot command or behaviour is undefined.  "*/
 - (void)setPlotSize:(NSSize)canvasSize
 {
-    [_selectedBuilder.model setCanvasSize:canvasSize];
+    [_state.model setCanvasSize:canvasSize];
 }
 
 /*" Set title to appear in window titlebar, also default name when saving. "*/
 - (void)setPlotTitle:(NSString *)title
 {
-    [_selectedBuilder.model setTitle:title?title:@"Untitled"];
+    [_state.model setTitle:title?title:@"Untitled"];
 }
 
 /*" Render the current plot in the viewer. "*/
 - (void)renderPlot
 {
-    if(_selectedBuilder) {
-        [_selectedBuilder renderPlot];
+    if(_state) {
+        [_state renderPlot];
     } else {
         // Just inform user about what is going on...
         NSLog(@"renderPlot called with no plot selected");
@@ -160,14 +160,14 @@
 /*" Clears the current plot and resets default values. To keep plot settings, use #eraseRect: instead. "*/
 - (void)clearPlot
 {
-    // _selectedBuilder = [_clientManager clearPlot];
+    // _state = [_clientManager clearPlot];
 }
 
 /*" Closes the current plot but leaves viewer window on screen. Disables event handling. "*/
 - (void)closePlot
 {
  //   [_clientManager closePlot];
-    _selectedBuilder = nil;
+    _state = nil;
 }
 
 #pragma mark === Event handling ===
@@ -206,27 +206,27 @@
 /*" Set a clipping region (rectangular) to apply to all subsequent operations, until changed again by #setClipRect: or #setDefaultClipRect. "*/
 - (void)setClipRect:(NSRect)clip
 {
-    _selectedBuilder.clipRect = clip;
+    _state.clipRect = clip;
 }
 
 /*" Restore clipping region to the deafult (object bounds), i.e. no clipping performed. "*/
 - (void)setDefaultClipRect
 {
-    _selectedBuilder.clipRect = NSZeroRect;
+    _state.clipRect = NSZeroRect;
 }
 
 /*" Return the number of color entries available in the currently active colormap. "*/
 - (int32_t)colormapSize
 {
-    return (_selectedBuilder)?_selectedBuilder.colormap.size:AQT_COLORMAP_SIZE;
+    return (_state)?_state.colormap.size:AQT_COLORMAP_SIZE;
 }
 
 /*" Set an RGB entry in the colormap, at the position given by entryIndex. "*/
 - (void)setColormapEntry:(int32_t)entryIndex red:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
     AQTColor *tmpColor = [[AQTColor alloc] initWithRed:r green:g blue:b alpha:a];
-    [_selectedBuilder.colormap setColor:tmpColor forIndex:entryIndex];
-    // FIXME: _selectedBuilder.colormap[entryIndex] = tmpColor;
+    [_state.colormap setColor:tmpColor forIndex:entryIndex];
+    // FIXME: _state.colormap[entryIndex] = tmpColor;
 }
 
 - (void)setColormapEntry:(int32_t)entryIndex red:(float)r green:(float)g blue:(float)b
@@ -238,8 +238,8 @@
 /*" Set an RGB entry in the colormap, at the position given by entryIndex. "*/
 - (void)getColormapEntry:(int32_t)entryIndex red:(float *)r green:(float *)g blue:(float *)b alpha:(float *)a
 {
-    AQTColor *tmpColor = [_selectedBuilder.colormap colorForIndex:entryIndex];
-    // FIXME: AQTColor *tmpColor = _selectedBuilder.colormap[entryIndex]
+    AQTColor *tmpColor = [_state.colormap colorForIndex:entryIndex];
+    // FIXME: AQTColor *tmpColor = _state.colormap[entryIndex]
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -256,19 +256,19 @@
 /*" Set the current color, used for all subsequent items, using the color stored at the position given by index in the colormap. "*/
 - (void)takeColorFromColormapEntry:(int32_t)index
 {
-    _selectedBuilder.current_color = [_selectedBuilder.colormap colorForIndex:index];
+    _state.current_color = [_state.colormap colorForIndex:index];
 }
 
 /*" Set the background color, overriding any previous color, using the color stored at the position given by index in the colormap. "*/
 - (void)takeBackgroundColorFromColormapEntry:(int32_t)index
 {
-    [_selectedBuilder.model setColor:[_selectedBuilder.colormap colorForIndex:index]];
+    [_state.model setColor:[_state.colormap colorForIndex:index]];
 }
 
 /*" Set the current color, used for all subsequent items, using explicit RGB components. "*/
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
-    _selectedBuilder.current_color = [[AQTColor alloc] initWithRed:r green:g blue:b alpha:a];
+    _state.current_color = [[AQTColor alloc] initWithRed:r green:g blue:b alpha:a];
 }
 
 - (void)setColorRed:(float)r green:(float)g blue:(float)b
@@ -279,7 +279,7 @@
 /*" Set the background color, overriding any previous color, using explicit RGB components. "*/
 - (void)setBackgroundColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
-    [_selectedBuilder.model setColor:[[AQTColor alloc] initWithRed:r green:g blue:b alpha:a]];
+    [_state.model setColor:[[AQTColor alloc] initWithRed:r green:g blue:b alpha:a]];
 }
 
 - (void)setBackgroundColorRed:(float)r green:(float)g blue:(float)b
@@ -291,7 +291,7 @@
 /*" Get current RGB color components by reference. "*/
 - (void)getColorRed:(float *)r green:(float *)g blue:(float *)b alpha:(float *)a
 {
-    AQTColor *tmpColor = _selectedBuilder.current_color;
+    AQTColor *tmpColor = _state.current_color;
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -301,7 +301,7 @@
 
 - (void)getColorRed:(float *)r green:(float *)g blue:(float *)b
 {
-    AQTColor *tmpColor = _selectedBuilder.current_color;
+    AQTColor *tmpColor = _state.current_color;
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -310,7 +310,7 @@
 /*" Get background color components by reference. "*/
 - (void)getBackgroundColorRed:(float *)r green:(float *)g blue:(float *)b alpha:(float *)a
 {
-    AQTColor *tmpColor = _selectedBuilder.model.color;
+    AQTColor *tmpColor = _state.model.color;
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -328,13 +328,13 @@
 /*" Set the font to be used. Applies to all future operations. Default is Times-Roman."*/
 - (void)setFontname:(NSString *)name
 {
-    _selectedBuilder.fontName = name;
+    _state.fontName = name;
 }
 
 /*" Set the font size in points. Applies to all future operations. Default is 14pt. "*/
 - (void)setFontsize:(float)fontsize
 {
-    _selectedBuilder.fontSize = fontsize;
+    _state.fontSize = fontsize;
 }
 
 /*" Add text at coordinate given by pos, rotated by angle degrees and aligned vertically and horisontally (with respect to pos and rotation) according to align. Horizontal and vertical align may be combined by an OR operation, e.g. (AQTAlignCenter | AQTAlignMiddle).
@@ -371,12 +371,12 @@
     }
     
     if (label) {
-        label.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
-        label.clipRect = _selectedBuilder.clipRect;
-        label.color = _selectedBuilder.current_color;
-        label.fontName = _selectedBuilder.fontName;
-        label.fontSize = _selectedBuilder.fontSize;
-        [_selectedBuilder.model addObject:label];
+        label.clipped = !NSEqualRects(_state.clipRect, NSZeroRect);
+        label.clipRect = _state.clipRect;
+        label.color = _state.current_color;
+        label.fontName = _state.fontName;
+        label.fontSize = _state.fontSize;
+        [_state.model addObject:label];
     }
 }
 
@@ -397,7 +397,7 @@
 /*" Set the current linewidth (in points), used for all subsequent lines. Any line currently being built by #moveToPoint:/#addLineToPoint will be considered finished since any coalesced sequence of line segments must share the same linewidth.  Default linewidth is 1pt."*/
 - (void)setLinewidth:(float)newLinewidth
 {
-    _selectedBuilder.linewidth = newLinewidth;
+    _state.linewidth = newLinewidth;
 }
 
 /*" Set the current line style to pattern style, used for all subsequent lines. The linestyle is specified as a pattern, an array of at most 8 float, where even positions correspond to dash-lengths and odd positions correspond to gap-lengths. To produce e.g. a dash-dotted line, use the pattern {4.0, 2.0, 1.0, 2.0}."*/
@@ -408,17 +408,17 @@
         return;
     }
     
-    _selectedBuilder.pattern = [NSMutableArray arrayWithCapacity:INITIAL_PATTERN_STORAGE];
+    _state.pattern = [NSMutableArray arrayWithCapacity:INITIAL_PATTERN_STORAGE];
     for (int32_t i = 0; i < newCount; i++) {
-        _selectedBuilder.pattern[i] = @(newPattern[i]);
+        _state.pattern[i] = @(newPattern[i]);
     }
-    _selectedBuilder.patternPhase = newPhase;
+    _state.patternPhase = newPhase;
 }
 
 /*" Set the current line style to solid, used for all subsequent lines. This is the default."*/
 - (void)setLinestyleSolid
 {
-    _selectedBuilder.pattern = nil;
+    _state.pattern = nil;
 }
 
 /*" Set the current line cap style (in points), used for all subsequent lines. Any line currently being built by #moveToPoint:/#addLineToPoint will be considered finished since any coalesced sequence of line segments must share the same cap style.
@@ -429,7 +429,7 @@
  Default is RoundLineCapStyle. "*/
 - (void)setLineCapStyle:(int32_t)capStyle
 {
-    _selectedBuilder.capStyle = capStyle;
+    _state.capStyle = capStyle;
 }
 
 /*" Moves the current point (in canvas coordinates) in preparation for a new sequence of line segments. "*/
@@ -441,7 +441,7 @@
 /*" Add a line segment from the current point (given by a previous #moveToPoint: or #addLineToPoint). "*/
 - (void)addLineToPoint:(NSPoint)point
 {
-    id obj = [_selectedBuilder.model lastObject];
+    id obj = [_state.model lastObject];
     if ([obj isKindOfClass:[AQTPath class]]) {
         [(AQTPath *)obj appendPoint:point];
     }
@@ -455,16 +455,16 @@
     }
     AQTPath *tmpPath = [[AQTPath alloc] initWithPoints:points pointCount:pc];
     // Copy current properties to path
-    tmpPath.clipRect = _selectedBuilder.clipRect;
-    tmpPath.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
-    tmpPath.color = _selectedBuilder.current_color;
-    tmpPath.linewidth = _selectedBuilder.linewidth;
-    tmpPath.lineCapStyle = _selectedBuilder.capStyle;
-    if (_selectedBuilder.pattern) {
-        [tmpPath setLinestylePattern:[_selectedBuilder.pattern copy]
-                               phase:_selectedBuilder.patternPhase];
+    tmpPath.clipRect = _state.clipRect;
+    tmpPath.clipped = !NSEqualRects(_state.clipRect, NSZeroRect);
+    tmpPath.color = _state.current_color;
+    tmpPath.linewidth = _state.linewidth;
+    tmpPath.lineCapStyle = _state.capStyle;
+    if (_state.pattern) {
+        [tmpPath setLinestylePattern:[_state.pattern copy]
+                               phase:_state.patternPhase];
     }
-    [_selectedBuilder.model addObject:tmpPath];
+    [_state.model addObject:tmpPath];
 
 }
 
@@ -486,13 +486,13 @@
     }
     AQTPath *tmpPath = [[AQTPath alloc] initWithPoints:points pointCount:pc];
     // Copy current properties to path
-    tmpPath.clipRect = _selectedBuilder.clipRect;
-    tmpPath.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
-    tmpPath.color = _selectedBuilder.current_color;
-    tmpPath.linewidth = _selectedBuilder.linewidth;
-    tmpPath.lineCapStyle = _selectedBuilder.capStyle;
+    tmpPath.clipRect = _state.clipRect;
+    tmpPath.clipped = !NSEqualRects(_state.clipRect, NSZeroRect);
+    tmpPath.color = _state.current_color;
+    tmpPath.linewidth = _state.linewidth;
+    tmpPath.lineCapStyle = _state.capStyle;
     tmpPath.filled = YES;
-    [_selectedBuilder.model addObject:tmpPath];
+    [_state.model addObject:tmpPath];
 }
 
 /*" Add a filled rectangle. Will attempt to remove any objects that will be covered by aRect."*/
@@ -525,22 +525,22 @@
     ts.tY = tY;
     NSAffineTransform *trans = [NSAffineTransform transform];
     [trans setTransformStruct:ts];
-    _selectedBuilder.imageTransform = trans;
+    _state.imageTransform = trans;
 }
 
 /*" Set transformation matrix to unity, i.e. no transform. "*/
 - (void)resetImageTransform
 {
-    _selectedBuilder.imageTransform = [NSAffineTransform transform];
+    _state.imageTransform = [NSAffineTransform transform];
 }
 
 /*" Add a bitmap image of size bitmapSize scaled to fit destBounds, does %not apply transform. Bitmap format is 24bits per pixel in sequence RGBRGB... with 8 bits per color."*/
 - (void)addImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize bounds:(NSRect)destBounds
 {
     AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize bounds:destBounds];
-    tmpImage.clipRect = _selectedBuilder.clipRect;
-    tmpImage.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
-    [_selectedBuilder.model addObject:tmpImage];
+    tmpImage.clipRect = _state.clipRect;
+    tmpImage.clipped = !NSEqualRects(_state.clipRect, NSZeroRect);
+    [_state.model addObject:tmpImage];
 }
 
 /*" Deprecated, use #addTransformedImageWithBitmap:size: instead. Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to destBounds. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
@@ -548,17 +548,17 @@
 {
     // FIXME: Bounds either needs to be transformed bounds or NOT tested for in AQTDrawingMethods
     AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize bounds:NSZeroRect];
-    tmpImage.transform = _selectedBuilder.imageTransform;
+    tmpImage.transform = _state.imageTransform;
     [tmpImage setClipRect:destBounds]; // Override _clipRect to restore old behaviour
     [tmpImage setClipped:YES];
-    [_selectedBuilder.model addObject:tmpImage];
+    [_state.model addObject:tmpImage];
 
 }
 
 /*" Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to current clipRect. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize
 {
-    [self addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:_selectedBuilder.clipRect];
+    [self addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:_state.clipRect];
 
 }
 @end

@@ -29,7 +29,7 @@ extern const int32_t AQTAlignTop;
 {
    /*" All instance variables are private. "*/
    AQTClientManager *_clientManager;
-   AQTPlotState *_selectedBuilder;
+   AQTPlotState *_state;
    id _aqtReserved1;
    id _aqtReserved2;
 }
