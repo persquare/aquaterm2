@@ -525,32 +525,44 @@
     ts.tY = tY;
     NSAffineTransform *trans = [NSAffineTransform transform];
     [trans setTransformStruct:ts];
-    [_selectedBuilder setImageTransform:trans];
+    // [_selectedBuilder setImageTransform:trans];
+    _selectedBuilder.imageTransform = trans;
 }
 
 /*" Set transformation matrix to unity, i.e. no transform. "*/
 - (void)resetImageTransform
 {
-    [_selectedBuilder setImageTransform:[NSAffineTransform transform]];
+    _selectedBuilder.imageTransform = [NSAffineTransform transform];
 }
 
 /*" Add a bitmap image of size bitmapSize scaled to fit destBounds, does %not apply transform. Bitmap format is 24bits per pixel in sequence RGBRGB... with 8 bits per color."*/
 - (void)addImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize bounds:(NSRect)destBounds
 {
-    // [_clientManager clearPlotRect:destBounds];
-    [_selectedBuilder addImageWithBitmap:bitmap size:bitmapSize bounds:destBounds];
+    AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize bounds:destBounds];
+    tmpImage.clipRect = _selectedBuilder.clipRect;
+    tmpImage.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
+    [_selectedBuilder.model addObject:tmpImage];
 }
 
 /*" Deprecated, use #addTransformedImageWithBitmap:size: instead. Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to destBounds. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize clipRect:(NSRect)destBounds
 {
-    [_selectedBuilder addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:destBounds];
+    // [_selectedBuilder addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:destBounds];
+    // FIXME: Bounds either needs to be transformed bounds or NOT tested for in AQTDrawingMethods
+    AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize bounds:NSZeroRect];
+    tmpImage.transform = _selectedBuilder.imageTransform;
+    [tmpImage setClipRect:destBounds]; // Override _clipRect to restore old behaviour
+    [tmpImage setClipped:YES];
+    [_selectedBuilder.model addObject:tmpImage];
+
 }
 
 /*" Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to current clipRect. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize
 {
-    [_selectedBuilder addTransformedImageWithBitmap:bitmap size:bitmapSize];
+    // [_selectedBuilder addTransformedImageWithBitmap:bitmap size:bitmapSize];
+    [self addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:_selectedBuilder.clipRect];
+
 }
 
 /*******************************************

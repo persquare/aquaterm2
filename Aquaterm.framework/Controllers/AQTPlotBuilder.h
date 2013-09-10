@@ -48,15 +48,15 @@
 }
 @property id <AQTRendering> plot;
 @property AQTModel *model;	/*" The graph currently being built "*/
-@property AQTColor *current_color;
 @property AQTColorMap *colormap;
+@property AQTColor *current_color;
 @property NSString *fontName;	/*" Currently selected font "*/
 @property float fontSize;	/*" Currently selected fontsize [pt]"*/
 @property float linewidth;
 @property float patternPhase;
 @property NSMutableArray *pattern;
 @property int32_t capStyle;
-
+@property NSAffineTransform *imageTransform;
 @property NSRect clipRect;
 
 
