@@ -10,8 +10,11 @@
 #import "AQTClientManager.h"
 #import "AQTPlotBuilder.h"
 #import "AQTModel.h"
-#import "AQTColorMap.h"
 #import "AQTLabel.h"
+#import "AQTPath.h"
+#import "AQTImage.h"
+#import "AQTColorMap.h"
+#import "AQTColor.h"
 
 @implementation AQTAdapter
 /*" AQTAdapter is a class that provides an interface to the functionality of AquaTerm.
@@ -203,7 +206,7 @@
 /*" Set a clipping region (rectangular) to apply to all subsequent operations, until changed again by #setClipRect: or #setDefaultClipRect. "*/
 - (void)setClipRect:(NSRect)clip
 {
-    [_selectedBuilder setClipRect:clip];
+    _selectedBuilder.clipRect = clip;
 }
 
 /*" Restore clipping region to the deafult (object bounds), i.e. no clipping performed. "*/
@@ -352,7 +355,6 @@
  "*/
 - (void)addLabel:(id)text atPoint:(NSPoint)pos angle:(float)angle shearAngle:(float)shearAngle align:(int32_t)just
 {
-    // [_selectedBuilder addLabel:text position:pos angle:angle shearAngle:shearAngle justification:just];
     AQTLabel *label = nil;
     if ([text isKindOfClass:[NSString class]]) {
         label = [[AQTLabel alloc] initWithString:text
@@ -433,7 +435,6 @@
 /*" Moves the current point (in canvas coordinates) in preparation for a new sequence of line segments. "*/
 - (void)moveToPoint:(NSPoint)point
 {
-    // [_selectedBuilder moveToPoint:point];
     [self addPolylineWithPoints:&point pointCount:1];
 }
 
@@ -510,7 +511,6 @@
 - (void)eraseRect:(NSRect)aRect
 {
     // FIXME: Possibly keep a list of rects to be erased and pass them before any append command??
-    // [_clientManager clearPlotRect:aRect];
 }
 
 /*" Set a transformation matrix for images added by #addTransformedImageWithBitmap:size:clipRect:, see NSImage documentation for details. "*/
@@ -525,7 +525,6 @@
     ts.tY = tY;
     NSAffineTransform *trans = [NSAffineTransform transform];
     [trans setTransformStruct:ts];
-    // [_selectedBuilder setImageTransform:trans];
     _selectedBuilder.imageTransform = trans;
 }
 
@@ -547,7 +546,6 @@
 /*" Deprecated, use #addTransformedImageWithBitmap:size: instead. Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to destBounds. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize clipRect:(NSRect)destBounds
 {
-    // [_selectedBuilder addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:destBounds];
     // FIXME: Bounds either needs to be transformed bounds or NOT tested for in AQTDrawingMethods
     AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize bounds:NSZeroRect];
     tmpImage.transform = _selectedBuilder.imageTransform;
@@ -560,19 +558,8 @@
 /*" Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to current clipRect. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize
 {
-    // [_selectedBuilder addTransformedImageWithBitmap:bitmap size:bitmapSize];
     [self addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:_selectedBuilder.clipRect];
 
 }
-
-/*******************************************
- * Private methods                         *
- *******************************************/
-/*
-- (void)timingTestWithTag:(uint32_t)tag
-{
-    [_clientManager timingTestWithTag:tag];
-}
- */
 @end
 
