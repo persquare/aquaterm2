@@ -102,7 +102,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		432528B517BE624D00084E34 /* tasks.todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = tasks.todo; sourceTree = "<group>"; };
+		432528B517BE624D00084E34 /* aqt.todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = aqt.todo; sourceTree = "<group>"; };
 		432528BB17BE6E9300084E34 /* Aquaterm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Aquaterm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		432528BF17BE6E9300084E34 /* Aquaterm.framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Aquaterm.framework-Info.plist"; sourceTree = "<group>"; };
 		432528C117BE6E9300084E34 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -373,7 +373,7 @@
 		43FF2A0317B4E5C60047B5C5 = {
 			isa = PBXGroup;
 			children = (
-				432528B517BE624D00084E34 /* tasks.todo */,
+				432528B517BE624D00084E34 /* aqt.todo */,
 				43FF2A1517B4E5C60047B5C5 /* Aquaterm2 */,
 				43C4DBCC17B78E4700D4700F /* Tool */,
 				432528BD17BE6E9300084E34 /* Aquaterm.framework */,
