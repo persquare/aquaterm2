@@ -53,18 +53,16 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
     }
     return self;
 }
-
-- (void)setLinestylePattern:(const float *)newPattern count:(int32_t)newCount phase:(float)newPhase 
+- (void)appendPoint:(NSPoint)point
 {
-    if (newCount <= 0) {
-        _pattern = nil;
-        return;
-    }
-    _pattern = [NSMutableArray arrayWithCapacity:INITIAL_PATTERN_STORAGE];
-    for (int32_t i = 0; i < newCount; i++) {
-        _pattern[i] = @(newPattern[i]);
-    }
+    [_path addObject:[NSValue valueWithPoint:point]];
+}
+
+- (void)setLinestylePattern:(NSArray *)newPattern phase:(float)newPhase
+{
+    _pattern = newPattern;
     patternPhase = newPhase;
+    
 }
 
 - (BOOL)hasPattern

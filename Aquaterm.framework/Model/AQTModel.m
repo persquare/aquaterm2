@@ -95,5 +95,8 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
 {
    [_modelObjects removeObjectAtIndex:i];
 }
-
+-(AQTGraphic *)lastObject
+{
+    return [_modelObjects lastObject];
+}
 @end

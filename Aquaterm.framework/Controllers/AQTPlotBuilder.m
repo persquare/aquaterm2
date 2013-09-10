@@ -17,6 +17,7 @@
 
 
 @implementation AQTPlotBuilder
+/*
 - (void)_aqtPlotBuilderSetDefaultValues
 {
     _color.red = 0.0;
@@ -84,17 +85,17 @@
     [NSException raise:@"AQTInvalidInit" format:@"Use -initWithPlot: instead."];
     return nil;
 }
-
+*/
 - (id)initWithPlot:(id <AQTRendering>)plot
 {
     self = [super init];
-    if(self) {
+    if (self) {
         _plot = plot;
         // FIXME: Default plot size + preferences, NOT NSZeroSize!
         _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
-        [self _aqtPlotBuilderSetDefaultValues];
-        _colormap = [[AQTColorMap alloc] initWithColormapSize:AQT_COLORMAP_SIZE];
-        [self _aqtPlotBuilderSetModelIsDirty:NO];
+        // [self _aqtPlotBuilderSetDefaultValues];
+        // _colormap = [[AQTColorMap alloc] initWithColormapSize:AQT_COLORMAP_SIZE];
+        // [self _aqtPlotBuilderSetModelIsDirty:NO];
     }
     return self;
 }
@@ -111,9 +112,9 @@
 
 - (void)reset
 {
-    [self _aqtPlotBuilderSetDefaultValues];
+    // [self _aqtPlotBuilderSetDefaultValues];
 }
-
+/*
 - (BOOL)modelIsDirty
 {
     return _modelIsDirty;
@@ -456,4 +457,5 @@
 {
     [self addTransformedImageWithBitmap:bitmap size:bitmapSize clipRect:_clipRect];
 }
+ */
 @end

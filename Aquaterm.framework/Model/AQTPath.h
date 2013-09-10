@@ -9,7 +9,7 @@
 @interface AQTPath : AQTGraphic 
 {
     NSMutableArray *_path;
-    NSMutableArray *_pattern;
+    NSArray *_pattern;
     float patternPhase;
 }
 
@@ -18,6 +18,7 @@
 @property BOOL filled;
 
 - (id)initWithPoints:(NSPointArray)points pointCount:(int32_t)pointCount;
+- (void)appendPoint:(NSPoint)point;
 - (BOOL)hasPattern;
-- (void)setLinestylePattern:(const float *)newPattern count:(int32_t)newCount phase:(float)newPhase;
+- (void)setLinestylePattern:(NSArray *)newPattern phase:(float)newPhase;
 @end

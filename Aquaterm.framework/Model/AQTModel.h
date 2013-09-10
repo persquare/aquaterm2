@@ -19,5 +19,6 @@
 -(NSArray *)modelObjects;
 -(void)removeAllObjects;
 -(void)removeObjectAtIndex:(uint32_t)i;
+-(AQTGraphic *)lastObject;
 
 @end

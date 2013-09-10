@@ -9,6 +9,9 @@
 #import "AQTAdapter.h"
 #import "AQTClientManager.h"
 #import "AQTPlotBuilder.h"
+#import "AQTModel.h"
+#import "AQTColorMap.h"
+#import "AQTLabel.h"
 
 @implementation AQTAdapter
 /*" AQTAdapter is a class that provides an interface to the functionality of AquaTerm.
@@ -131,13 +134,13 @@
 /*" Set the limits of the plot area. Must be set %before any drawing command following an #openPlotWithIndex: or #clearPlot command or behaviour is undefined.  "*/
 - (void)setPlotSize:(NSSize)canvasSize
 {
-    [_selectedBuilder setSize:canvasSize];
+    [_selectedBuilder.model setCanvasSize:canvasSize];
 }
 
 /*" Set title to appear in window titlebar, also default name when saving. "*/
 - (void)setPlotTitle:(NSString *)title
 {
-    [_selectedBuilder setTitle:title?title:@"Untitled"];
+    [_selectedBuilder.model setTitle:title?title:@"Untitled"];
 }
 
 /*" Render the current plot in the viewer. "*/
@@ -206,20 +209,21 @@
 /*" Restore clipping region to the deafult (object bounds), i.e. no clipping performed. "*/
 - (void)setDefaultClipRect
 {
-    [_selectedBuilder setDefaultClipRect];
+    _selectedBuilder.clipRect = NSZeroRect;
 }
 
 /*" Return the number of color entries available in the currently active colormap. "*/
 - (int32_t)colormapSize
 {
-    return (_selectedBuilder)?[_selectedBuilder colormapSize]:AQT_COLORMAP_SIZE;
+    return (_selectedBuilder)?_selectedBuilder.colormap.size:AQT_COLORMAP_SIZE;
 }
 
 /*" Set an RGB entry in the colormap, at the position given by entryIndex. "*/
 - (void)setColormapEntry:(int32_t)entryIndex red:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
     AQTColor *tmpColor = [[AQTColor alloc] initWithRed:r green:g blue:b alpha:a];
-    [_selectedBuilder setColor:tmpColor forColormapEntry:entryIndex];
+    [_selectedBuilder.colormap setColor:tmpColor forIndex:entryIndex];
+    // FIXME: _selectedBuilder.colormap[entryIndex] = tmpColor;
 }
 
 - (void)setColormapEntry:(int32_t)entryIndex red:(float)r green:(float)g blue:(float)b
@@ -231,7 +235,8 @@
 /*" Set an RGB entry in the colormap, at the position given by entryIndex. "*/
 - (void)getColormapEntry:(int32_t)entryIndex red:(float *)r green:(float *)g blue:(float *)b alpha:(float *)a
 {
-    AQTColor *tmpColor = [_selectedBuilder colorForColormapEntry:entryIndex];
+    AQTColor *tmpColor = [_selectedBuilder.colormap colorForIndex:entryIndex];
+    // FIXME: AQTColor *tmpColor = _selectedBuilder.colormap[entryIndex]
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -248,19 +253,19 @@
 /*" Set the current color, used for all subsequent items, using the color stored at the position given by index in the colormap. "*/
 - (void)takeColorFromColormapEntry:(int32_t)index
 {
-    [_selectedBuilder takeColorFromColormapEntry:index];
+    _selectedBuilder.current_color = [_selectedBuilder.colormap colorForIndex:index];
 }
 
 /*" Set the background color, overriding any previous color, using the color stored at the position given by index in the colormap. "*/
 - (void)takeBackgroundColorFromColormapEntry:(int32_t)index
 {
-    [_selectedBuilder takeBackgroundColorFromColormapEntry:index];
+    [_selectedBuilder.model setColor:[_selectedBuilder.colormap colorForIndex:index]];
 }
 
 /*" Set the current color, used for all subsequent items, using explicit RGB components. "*/
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
-    [_selectedBuilder setColor:[[AQTColor alloc] initWithRed:r green:g blue:b alpha:a]];
+    _selectedBuilder.current_color = [[AQTColor alloc] initWithRed:r green:g blue:b alpha:a];
 }
 
 - (void)setColorRed:(float)r green:(float)g blue:(float)b
@@ -271,7 +276,7 @@
 /*" Set the background color, overriding any previous color, using explicit RGB components. "*/
 - (void)setBackgroundColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
-    [_selectedBuilder setBackgroundColor:[[AQTColor alloc] initWithRed:r green:g blue:b alpha:a]];
+    [_selectedBuilder.model setColor:[[AQTColor alloc] initWithRed:r green:g blue:b alpha:a]];
 }
 
 - (void)setBackgroundColorRed:(float)r green:(float)g blue:(float)b
@@ -283,7 +288,7 @@
 /*" Get current RGB color components by reference. "*/
 - (void)getColorRed:(float *)r green:(float *)g blue:(float *)b alpha:(float *)a
 {
-    AQTColor *tmpColor = [_selectedBuilder color];
+    AQTColor *tmpColor = _selectedBuilder.current_color;
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -293,7 +298,7 @@
 
 - (void)getColorRed:(float *)r green:(float *)g blue:(float *)b
 {
-    AQTColor *tmpColor = [_selectedBuilder color];
+    AQTColor *tmpColor = _selectedBuilder.current_color;
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -302,7 +307,7 @@
 /*" Get background color components by reference. "*/
 - (void)getBackgroundColorRed:(float *)r green:(float *)g blue:(float *)b alpha:(float *)a
 {
-    AQTColor *tmpColor = [_selectedBuilder backgroundColor];
+    AQTColor *tmpColor = _selectedBuilder.model.color;
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -318,15 +323,15 @@
 
 
 /*" Set the font to be used. Applies to all future operations. Default is Times-Roman."*/
-- (void)setFontname:(NSString *)newFontname
+- (void)setFontname:(NSString *)name
 {
-    [_selectedBuilder setFontname:newFontname];
+    _selectedBuilder.fontName = name;
 }
 
 /*" Set the font size in points. Applies to all future operations. Default is 14pt. "*/
-- (void)setFontsize:(float)newFontsize
+- (void)setFontsize:(float)fontsize
 {
-    [_selectedBuilder setFontsize:newFontsize];
+    _selectedBuilder.fontSize = fontsize;
 }
 
 /*" Add text at coordinate given by pos, rotated by angle degrees and aligned vertically and horisontally (with respect to pos and rotation) according to align. Horizontal and vertical align may be combined by an OR operation, e.g. (AQTAlignCenter | AQTAlignMiddle).
@@ -347,19 +352,42 @@
  "*/
 - (void)addLabel:(id)text atPoint:(NSPoint)pos angle:(float)angle shearAngle:(float)shearAngle align:(int32_t)just
 {
-    [_selectedBuilder addLabel:text position:pos angle:angle shearAngle:shearAngle justification:just];
+    // [_selectedBuilder addLabel:text position:pos angle:angle shearAngle:shearAngle justification:just];
+    AQTLabel *label = nil;
+    if ([text isKindOfClass:[NSString class]]) {
+        label = [[AQTLabel alloc] initWithString:text
+                                     position:pos
+                                        angle:angle
+                                   shearAngle:shearAngle
+                                justification:just];
+    } else if ([text isKindOfClass:[NSAttributedString class]]) {
+        label = [[AQTLabel alloc] initWithAttributedString:text
+                                               position:pos
+                                                  angle:angle
+                                             shearAngle:shearAngle
+                                          justification:just];
+    }
+    
+    if (label) {
+        label.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
+        label.clipRect = _selectedBuilder.clipRect;
+        label.color = _selectedBuilder.current_color;
+        label.fontName = _selectedBuilder.fontName;
+        label.fontSize = _selectedBuilder.fontSize;
+        [_selectedBuilder.model addObject:label];
+    }
 }
 
 /*" Same as #addLabel:atPoint:angle:shearAngle:align: except that shearAngle defaults to 0."*/
 - (void)addLabel:(id)text atPoint:(NSPoint)pos angle:(float)angle align:(int32_t)just
 {
-    [_selectedBuilder addLabel:text position:pos angle:angle shearAngle:0.0 justification:just];
+    [self addLabel:text atPoint:pos angle:angle shearAngle:0.0 align:just];
 }
 
 /*" Convenience form of #addLabel:atPoint:angle:shearAngle:align: for horizontal, left and baseline aligned text."*/
 - (void)addLabel:(id)text atPoint:(NSPoint)pos
 {
-    [_selectedBuilder addLabel:text position:pos angle:0.0 shearAngle:0.0 justification:(AQTAlignLeft | AQTAlignBaseline)];
+    [self addLabel:text atPoint:pos angle:0.0 shearAngle:0.0 align:(AQTAlignLeft | AQTAlignBaseline)];
 }
 
 
@@ -367,19 +395,28 @@
 /*" Set the current linewidth (in points), used for all subsequent lines. Any line currently being built by #moveToPoint:/#addLineToPoint will be considered finished since any coalesced sequence of line segments must share the same linewidth.  Default linewidth is 1pt."*/
 - (void)setLinewidth:(float)newLinewidth
 {
-    [_selectedBuilder setLinewidth:newLinewidth];
+    _selectedBuilder.linewidth = newLinewidth;
 }
 
 /*" Set the current line style to pattern style, used for all subsequent lines. The linestyle is specified as a pattern, an array of at most 8 float, where even positions correspond to dash-lengths and odd positions correspond to gap-lengths. To produce e.g. a dash-dotted line, use the pattern {4.0, 2.0, 1.0, 2.0}."*/
 - (void)setLinestylePattern:(float *)newPattern count:(int32_t)newCount phase:(float)newPhase
 {
-    [_selectedBuilder setLinestylePattern:newPattern count:newCount phase:newPhase];
+    if (newCount <= 0) {
+        [self setLinestyleSolid];
+        return;
+    }
+    
+    _selectedBuilder.pattern = [NSMutableArray arrayWithCapacity:INITIAL_PATTERN_STORAGE];
+    for (int32_t i = 0; i < newCount; i++) {
+        _selectedBuilder.pattern[i] = @(newPattern[i]);
+    }
+    _selectedBuilder.patternPhase = newPhase;
 }
 
 /*" Set the current line style to solid, used for all subsequent lines. This is the default."*/
 - (void)setLinestyleSolid
 {
-    [_selectedBuilder setLinestyleSolid];
+    _selectedBuilder.pattern = nil;
 }
 
 /*" Set the current line cap style (in points), used for all subsequent lines. Any line currently being built by #moveToPoint:/#addLineToPoint will be considered finished since any coalesced sequence of line segments must share the same cap style.
@@ -390,47 +427,83 @@
  Default is RoundLineCapStyle. "*/
 - (void)setLineCapStyle:(int32_t)capStyle
 {
-    [_selectedBuilder setLineCapStyle:capStyle];
+    _selectedBuilder.capStyle = capStyle;
 }
 
 /*" Moves the current point (in canvas coordinates) in preparation for a new sequence of line segments. "*/
 - (void)moveToPoint:(NSPoint)point
 {
-    [_selectedBuilder moveToPoint:point];
+    // [_selectedBuilder moveToPoint:point];
+    [self addPolylineWithPoints:&point pointCount:1];
 }
 
 /*" Add a line segment from the current point (given by a previous #moveToPoint: or #addLineToPoint). "*/
 - (void)addLineToPoint:(NSPoint)point
 {
-    [_selectedBuilder addLineToPoint:point];
+    id obj = [_selectedBuilder.model lastObject];
+    if ([obj isKindOfClass:[AQTPath class]]) {
+        [(AQTPath *)obj appendPoint:point];
+    }
 }
 
 /*" Add a sequence of line segments specified by a list of start-, end-, and joinpoint(s) in points. Parameter pc is number of line segments + 1."*/
 - (void)addPolylineWithPoints:(NSPoint *)points pointCount:(int32_t)pc
 {
-    [_selectedBuilder addPolylineWithPoints:points pointCount:pc];
+    if (pc < 0) {
+        return;
+    }
+    AQTPath *tmpPath = [[AQTPath alloc] initWithPoints:points pointCount:pc];
+    // Copy current properties to path
+    tmpPath.clipRect = _selectedBuilder.clipRect;
+    tmpPath.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
+    tmpPath.color = _selectedBuilder.current_color;
+    tmpPath.linewidth = _selectedBuilder.linewidth;
+    tmpPath.lineCapStyle = _selectedBuilder.capStyle;
+    if (_selectedBuilder.pattern) {
+        [tmpPath setLinestylePattern:[_selectedBuilder.pattern copy]
+                               phase:_selectedBuilder.patternPhase];
+    }
+    [_selectedBuilder.model addObject:tmpPath];
+
 }
 
 - (void)moveToVertexPoint:(NSPoint)point
 {
-    [_selectedBuilder moveToVertexPoint:point];
+    [self addPolygonWithVertexPoints:&point pointCount:1];
 }
 
 - (void)addEdgeToVertexPoint:(NSPoint)point
 {
-    [_selectedBuilder addEdgeToPoint:point];
+    [self addLineToPoint:point];
 }
 
 /*" Add a polygon specified by a list of corner points. Number of corners is passed in pc."*/
 - (void)addPolygonWithVertexPoints:(NSPoint *)points pointCount:(int32_t)pc
 {
-    [_selectedBuilder addPolygonWithPoints:points pointCount:pc];
+    if (pc < 0) {
+        return;
+    }
+    AQTPath *tmpPath = [[AQTPath alloc] initWithPoints:points pointCount:pc];
+    // Copy current properties to path
+    tmpPath.clipRect = _selectedBuilder.clipRect;
+    tmpPath.clipped = !NSEqualRects(_selectedBuilder.clipRect, NSZeroRect);
+    tmpPath.color = _selectedBuilder.current_color;
+    tmpPath.linewidth = _selectedBuilder.linewidth;
+    tmpPath.lineCapStyle = _selectedBuilder.capStyle;
+    tmpPath.filled = YES;
+    [_selectedBuilder.model addObject:tmpPath];
 }
 
 /*" Add a filled rectangle. Will attempt to remove any objects that will be covered by aRect."*/
 - (void)addFilledRect:(NSRect)aRect
 {
-    [_selectedBuilder addFilledRect:aRect];
+    NSPoint pointList[4]={
+        NSMakePoint(NSMinX(aRect), NSMinY(aRect)),
+        NSMakePoint(NSMaxX(aRect), NSMinY(aRect)),
+        NSMakePoint(NSMaxX(aRect), NSMaxY(aRect)),
+        NSMakePoint(NSMinX(aRect), NSMaxY(aRect))};
+    // [self eraseRect:aRect];
+    [self addPolygonWithVertexPoints:pointList pointCount:4];
 }
 
 /*" Remove any objects %completely inside aRect. Does %not force a redraw of the plot."*/
