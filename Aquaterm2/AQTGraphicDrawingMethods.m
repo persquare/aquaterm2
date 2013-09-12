@@ -93,7 +93,7 @@ static float _aqtMinimumLinewidth;
     [self setAQTColor];
     NSRectFill(dirtyRect);
     
-    for (AQTGraphic *graphic in self.modelObjects) {
+    for (AQTGraphic *graphic in _modelObjects) {
         [graphic renderInRect:dirtyRect];
     }
 }

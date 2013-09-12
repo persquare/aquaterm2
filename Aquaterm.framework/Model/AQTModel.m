@@ -8,19 +8,19 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
 
 @implementation AQTModel
 /**"
-*** A class representing a collection of objects making up the plot.
-"**/
+ *** A class representing a collection of objects making up the plot.
+ "**/
 
 -(id)initWithCanvasSize:(NSSize)size
 {
-  self = [super init];
-  if (self) {
-    _modelObjects = [[NSMutableArray alloc] initWithCapacity:1024];
-    _title = @"Untitled";
-    _canvasSize = size;
-    self.color = [[AQTColor alloc] initWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        _modelObjects = [[NSMutableArray alloc] initWithCapacity:1024];
+        _title = @"Untitled";
+        _canvasSize = size;
+        self.color = [[AQTColor alloc] initWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    }
+    return self;
 }
 
 -(id)init
@@ -63,38 +63,20 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
                                                 count:len];
 }
 
--(int32_t)count
+-(NSUInteger)count
 {
-  return (int32_t)[_modelObjects count];
+    return _modelObjects.count;
 }
 
 /**"
-*** Add any subclass of AQTGraphic to the collection of objects.
-"**/
+ *** Add any subclass of AQTGraphic to the collection of objects.
+ "**/
+
 -(void)addObject:(AQTGraphic *)graphic
 {
-  [_modelObjects addObject:graphic];
+    [_modelObjects addObject:graphic];
 }
 
--(void)addObjectsFromArray:(NSArray *)graphics
-{
-   [_modelObjects addObjectsFromArray:graphics];
-}
-
--(NSArray *)modelObjects
-{
-   return _modelObjects;
-}
-
--(void)removeAllObjects
-{
-   [_modelObjects removeAllObjects];
-}
-
--(void)removeObjectAtIndex:(uint32_t)i
-{
-   [_modelObjects removeObjectAtIndex:i];
-}
 -(AQTGraphic *)lastObject
 {
     return [_modelObjects lastObject];

@@ -13,12 +13,7 @@
 
 -(id)initWithCanvasSize:(NSSize)canvasSize;
 
--(int32_t)count;
+-(NSUInteger)count;
 -(void)addObject:(AQTGraphic *)graphic;
--(void)addObjectsFromArray:(NSArray *)graphics;
--(NSArray *)modelObjects;
--(void)removeAllObjects;
--(void)removeObjectAtIndex:(uint32_t)i;
 -(AQTGraphic *)lastObject;
-
 @end
