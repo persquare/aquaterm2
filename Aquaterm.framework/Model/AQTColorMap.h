@@ -7,16 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AQTGraphic.h"
 #import "AQTColor.h"
 
 @interface AQTColorMap : NSObject	
-{
-   NSMutableArray *colormap; // NB. Not an object but a pointer to a struct
-   int32_t size; 
-}
--(id)initWithColormapSize:(int32_t)size;
--(int32_t)size;
--(void)setColor:(AQTColor *)newColor forIndex:(int32_t)index;
--(AQTColor *)colorForIndex:(int32_t)index;
+
+@property NSMutableArray *colormap;
+
+- (id)initWithSize:(NSUInteger)size;
+- (NSUInteger)size;
+- (AQTColor *)objectAtIndexedSubscript:(NSUInteger)index;
+- (void)setObject:(AQTColor *)color atIndexedSubscript:(NSUInteger)index;
 @end

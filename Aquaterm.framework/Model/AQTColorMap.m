@@ -11,42 +11,42 @@
 @implementation AQTColorMap
 -(id)init
 {
-    return [self initWithColormapSize:1]; // Black
+    return [self initWithSize:1]; // Black
 }
 
--(id)initWithColormapSize:(int32_t)mapsize
+-(id)initWithSize:(NSUInteger)mapsize
 {
-    if (self = [super init])
-    {
-        size = (mapsize < 1)?1:mapsize;        
-        colormap = [NSMutableArray array];
-        colormap[0] = [[AQTColor alloc] init];
+    self = [super init];
+    if (self) {
+        NSUInteger size = (mapsize < 1)?1:mapsize;        
+        _colormap = [NSMutableArray arrayWithCapacity:size];
+        self[size-1] = [[AQTColor alloc] init];        
     }
     return self;
 }
 
--(int32_t)size
+- (NSString *)description
 {
-    return size;
+    return [_colormap description];
 }
 
--(void)setColor:(AQTColor *)newColor forIndex:(int32_t)index
+-(NSUInteger)size
 {
-    if (index >= 0 && index < size)
-    {
-        colormap[index] = newColor;
-    }
+    return _colormap.count;
 }
 
--(AQTColor *)colorForIndex:(int32_t)index
+- (AQTColor *)objectAtIndexedSubscript:(NSUInteger)index
 {
-    if (index < 0 || index >= size)
-    {
-        return colormap[0];
-    }
-    else
-    {
-        return colormap[index];
+    return _colormap[index % _colormap.count];
+}
+
+- (void)setObject:(AQTColor *)color atIndexedSubscript:(NSUInteger)index
+{
+    // Add entry, pad if necessary
+    NSUInteger start = (index < _colormap.count)?index:_colormap.count;
+
+    for (NSUInteger i=start; i<=index; i++) {
+        _colormap[i] = color;
     }
 }
 @end

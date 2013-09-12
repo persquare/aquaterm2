@@ -218,15 +218,14 @@
 /*" Return the number of color entries available in the currently active colormap. "*/
 - (int32_t)colormapSize
 {
-    return (_state)?_state.colormap.size:AQT_COLORMAP_SIZE;
+    return (_state)?(int32_t)_state.colormap.size:AQT_COLORMAP_SIZE;
 }
 
 /*" Set an RGB entry in the colormap, at the position given by entryIndex. "*/
 - (void)setColormapEntry:(int32_t)entryIndex red:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
     AQTColor *tmpColor = [[AQTColor alloc] initWithRed:r green:g blue:b alpha:a];
-    [_state.colormap setColor:tmpColor forIndex:entryIndex];
-    // FIXME: _state.colormap[entryIndex] = tmpColor;
+    _state.colormap[entryIndex] = tmpColor;
 }
 
 - (void)setColormapEntry:(int32_t)entryIndex red:(float)r green:(float)g blue:(float)b
@@ -238,8 +237,7 @@
 /*" Set an RGB entry in the colormap, at the position given by entryIndex. "*/
 - (void)getColormapEntry:(int32_t)entryIndex red:(float *)r green:(float *)g blue:(float *)b alpha:(float *)a
 {
-    AQTColor *tmpColor = [_state.colormap colorForIndex:entryIndex];
-    // FIXME: AQTColor *tmpColor = _state.colormap[entryIndex]
+    AQTColor *tmpColor = _state.colormap[entryIndex];
     *r = tmpColor.red;
     *g = tmpColor.green;
     *b = tmpColor.blue;
@@ -256,13 +254,13 @@
 /*" Set the current color, used for all subsequent items, using the color stored at the position given by index in the colormap. "*/
 - (void)takeColorFromColormapEntry:(int32_t)index
 {
-    _state.current_color = [_state.colormap colorForIndex:index];
+    _state.current_color = _state.colormap[index];
 }
 
 /*" Set the background color, overriding any previous color, using the color stored at the position given by index in the colormap. "*/
 - (void)takeBackgroundColorFromColormapEntry:(int32_t)index
 {
-    [_state.model setColor:[_state.colormap colorForIndex:index]];
+    [_state.model setColor:_state.colormap[index]];
 }
 
 /*" Set the current color, used for all subsequent items, using explicit RGB components. "*/
