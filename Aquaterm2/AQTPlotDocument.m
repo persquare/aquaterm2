@@ -14,14 +14,15 @@
 {
     self = [super init];
     if (self) {
-        // Add your subclass-specific initialization here.
+        // FIXME: Size argument
+        _model = [[AQTModel alloc] initWithCanvasSize:NSMakeSize(100,100)];
     }
     return self;
 }
 
 - (void)awakeFromNib
 {
-    NSLog(@"%@#%@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    // NSLog(@"%@#%@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
 }
 
 - (NSString *)windowNibName
@@ -33,9 +34,13 @@
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
-    NSLog(@"%@#%@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    //  NSLog(@"%@#%@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
+    [self.window setContentSize:_model.canvasSize];
+    [self.window setContentAspectRatio:_model.canvasSize];
+    [self.window setTitle:_model.title];
+    
 }
 
 + (BOOL)autosavesInPlace
@@ -83,10 +88,6 @@
 - (void)setModel:(bycopy AQTModel *)aModel
 {
     _model = aModel;
-
-    [self.window setContentSize:_model.canvasSize];
-    [self.window setContentAspectRatio:_model.canvasSize];
-    [self.window setTitle:_model.title];
     
     [self showWindows];
 }
