@@ -12,6 +12,7 @@
 // #import "AQTPath.h"
 #import "AQTRendering.h"
 
+// FIXME: These DEFINES are bogus
 // This is the default colormap size
 #define AQT_COLORMAP_SIZE 256
 

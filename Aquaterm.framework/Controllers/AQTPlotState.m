@@ -24,7 +24,6 @@ extern const int32_t AQTRoundLineCapStyle;
         // FIXME: Default plot size + preferences, NOT NSZeroSize!
         _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
         [self setDefaultValues];
-        // _colormap = [[AQTColorMap alloc] initWithColormapSize:AQT_COLORMAP_SIZE];
     }
     return self;
 }
@@ -50,6 +49,7 @@ extern const int32_t AQTRoundLineCapStyle;
     self.capStyle = AQTRoundLineCapStyle;
     self.imageTransform = [NSAffineTransform transform];
     self.clipRect = NSZeroRect;
+    self.colormap = [[AQTColorMap alloc] init];
 }
 
 - (void)reset
