@@ -71,24 +71,25 @@ static float _aqtMinimumLinewidth;
 @implementation AQTModel (AQTModelDrawing)
 -(NSRect)updateBounds
 {
-    NSRect tmpRect = NSZeroRect;
-    
-    _aqtMinimumLinewidth = [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumLinewidth"];
-    
-    for (AQTGraphic *graphic in self) {
-        tmpRect = NSUnionRect(tmpRect, [graphic updateBounds]);
+    if (!_didUpdateBounds) {
+        NSRect tmpBounds = NSZeroRect;
+        for (AQTGraphic *graphic in self) {
+            tmpBounds = NSUnionRect(tmpBounds, [graphic updateBounds]);
+        }
+        [self setBounds:tmpBounds];
+        
+        _didUpdateBounds = YES;
     }
-    [self setBounds:tmpRect];
-    return tmpRect;
+    return self.bounds;
 }
 
 -(void)renderInRect:(NSRect)dirtyRect
 {
-    // FIXME: Figure out when to trigger.
-    if (NSEqualRects(self.bounds, NSZeroRect)) {
-        [self updateBounds];
-    }
-        
+    [self updateBounds];
+
+    // FIXME: Get rid of this
+    _aqtMinimumLinewidth = [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumLinewidth"];
+    
     // Model object is responsible for background...
     [self setAQTColor];
     NSRectFill(dirtyRect);

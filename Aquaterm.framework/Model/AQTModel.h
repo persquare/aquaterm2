@@ -4,6 +4,7 @@
 @interface AQTModel : AQTGraphic <NSFastEnumeration>
 {
    NSMutableArray *_modelObjects;
+   BOOL _didUpdateBounds; // Not passed over to renderer
 }
 
 @property NSSize canvasSize;
