@@ -15,7 +15,7 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
   if ((self = [super init])) {
       _path = [NSMutableArray arrayWithCapacity:INITIAL_POINT_STORAGE];
       for (int32_t i = 0; i < pc; i++) {
-          _path[i] = [NSValue valueWithPoint:points[i]];
+          [self appendPoint:points[i]];
       }
   }
   return self;
@@ -53,9 +53,31 @@ static NSString *AQTFilledKey = @"AQTFilledKey";
     }
     return self;
 }
+
+NSRect AQTExtendRectWithPoint(NSRect r, NSPoint b)
+{
+    NSRect r2;
+    NSPoint a = r.origin;
+    
+    r2.origin.x = MIN( a.x, b.x );
+    r2.origin.y = MIN( a.y, b.y );
+    r2.size.width = ABS( a.x - b.x );
+    r2.size.height = ABS( a.y - b.y );
+    
+    return NSUnionRect(r, r2);
+}
+
+
+// This is the only way to add points, or bounds will be wrong
 - (void)appendPoint:(NSPoint)point
 {
     [_path addObject:[NSValue valueWithPoint:point]];
+    if (NSEqualRects(self.bounds, NSZeroRect)) {
+        // 1st point
+        self.bounds = NSMakeRect(point.x, point.y, 0, 0);
+    } else {
+        self.bounds = AQTExtendRectWithPoint(self.bounds, point);
+    }
 }
 
 - (void)setLinestylePattern:(NSArray *)newPattern phase:(float)newPhase

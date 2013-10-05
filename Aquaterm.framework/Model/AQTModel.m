@@ -19,6 +19,7 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
         _title = @"Untitled";
         _canvasSize = size;
         self.color = [[AQTColor alloc] initWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+        [self setBounds:NSZeroRect];
     }
     return self;
 }
@@ -75,6 +76,7 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
 -(void)addObject:(AQTGraphic *)graphic
 {
     [_modelObjects addObject:graphic];
+    _didUpdateBounds = NO;
 }
 
 -(AQTGraphic *)lastObject
@@ -84,18 +86,42 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
 
 -(void)removeObjectsInRect:(NSRect)removeBounds
 {
-    // First check if whole canvas is contained in rect,
-    // if not test objects one by one.
-    // FIXME: Bounds update in renderer (App) depends on model.bounds == {0}
-    //        To keep compatibility for now, create temp bounds here
-    NSRect tmpBounds = NSMakeRect(0, 0, self.canvasSize.width, self.canvasSize.height);
+    [self updateBounds];
     // Make test rect just a tiny bit bigger
     removeBounds = NSInsetRect(removeBounds, -1, -1);
-    if (NSContainsRect(removeBounds, tmpBounds)) {
+    // First check if whole canvas is contained in rect,
+    // if not test objects one by one.
+    if (NSContainsRect(removeBounds, [self clippedBounds])) {
         [_modelObjects removeAllObjects];
+        [self setBounds:NSZeroRect];
     } else {
-        // Iterate
-        NSLog(@"Not implemented: -%@, %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
+        // Build a list of objects to remove
+        NSMutableArray *objectsToRemove = [NSMutableArray array];
+        for (AQTGraphic *graphic in self) {
+            if (NSContainsRect(removeBounds, [graphic clippedBounds])) {
+                [objectsToRemove addObject:graphic];
+            }
+        }
+        if ([objectsToRemove count]) {
+            [_modelObjects removeObjectsInArray:objectsToRemove];
+            _didUpdateBounds = NO;
+        }
+
     }
 }
+
+-(NSRect)updateBounds
+{
+    if (!_didUpdateBounds) {
+        NSRect tmpBounds = NSZeroRect;
+        for (AQTGraphic *graphic in self) {
+            tmpBounds = NSUnionRect(tmpBounds, [graphic updateBounds]);
+        }
+        [self setBounds:tmpBounds];
+        
+        _didUpdateBounds = YES;
+    }
+    return self.bounds;
+}
+
 @end

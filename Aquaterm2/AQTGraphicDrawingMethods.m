@@ -56,19 +56,6 @@ static float _aqtMinimumLinewidth;
  *** Tell every object in the collection to draw itself.
  "**/
 @implementation AQTModel (AQTModelDrawing)
--(NSRect)updateBounds
-{
-    if (!_didUpdateBounds) {
-        NSRect tmpBounds = NSZeroRect;
-        for (AQTGraphic *graphic in self) {
-            tmpBounds = NSUnionRect(tmpBounds, [graphic updateBounds]);
-        }
-        [self setBounds:tmpBounds];
-        
-        _didUpdateBounds = YES;
-    }
-    return self.bounds;
-}
 
 -(void)renderInRect:(NSRect)dirtyRect
 {
