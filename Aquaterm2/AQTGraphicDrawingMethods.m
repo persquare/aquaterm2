@@ -33,19 +33,6 @@ static float _aqtMinimumLinewidth;
     NSLog(@"Error: *** AQTGraphicDrawing ***");
 }
 
--(NSRect)updateBounds
-{
-    return self.bounds; // Default is to do nothing.
-}
-
--(NSRect)clippedBounds
-{
-    if (self.clipped) {
-        return NSIntersectionRect(self.bounds, self.clipRect);
-    }
-    return self.bounds;
-}
-
 // Debugging methods
 -(void)highlightRect:(NSRect)rect color:(NSColor *)color
 {

@@ -41,4 +41,17 @@ static NSString *AQTClippedKey = @"AQTClippedKey";
     return self;
 }
 
+-(NSRect)updateBounds
+{
+    // Default is to do nothing.
+    return self.bounds;
+}
+
+-(NSRect)clippedBounds
+{
+    if (self.clipped) {
+        return NSIntersectionRect(self.bounds, self.clipRect);
+    }
+    return self.bounds;
+}
 @end
