@@ -88,7 +88,10 @@
 - (void)setModel:(bycopy AQTModel *)aModel
 {
     _model = aModel;
-    
+    [self.window setContentSize:_model.canvasSize];
+    [self.window setContentAspectRatio:_model.canvasSize];
+    [self.window setTitle:_model.title];
+    [self.contentView setNeedsDisplay:YES];
     [self showWindows];
 }
 
