@@ -173,12 +173,12 @@
 #pragma mark === Event handling ===
 
 /*" Inform AquaTerm whether or not events should be passed from the currently selected plot. Deactivates event passing from any plot previously set to pass events. "*/
-/*
+
 - (void)setAcceptingEvents:(BOOL)flag
 {
     [_clientManager setAcceptingEvents:flag];
 }
-*/
+
 /*" Reads the last event logged by the viewer. Will always return NoEvent unless #setAcceptingEvents: is called with a YES argument."*/
 /*
 - (NSString *)lastEvent

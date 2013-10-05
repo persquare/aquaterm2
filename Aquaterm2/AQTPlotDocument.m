@@ -7,6 +7,7 @@
 //
 
 #import "AQTPlotDocument.h"
+#import "AQTPlotView.h"
 
 @implementation AQTPlotDocument
 

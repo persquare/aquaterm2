@@ -22,7 +22,7 @@ int main(int argc, const char * argv[])
         AQTAdapter *adapter = [[AQTAdapter alloc] init];
         // demo(adapter);
         // simple(adapter);
-        for (int i=0; i<6; i++) {
+        for (int i=0; i<2; i++) {
             [adapter openPlotWithIndex:i+1];
             [adapter setPlotSize:NSMakeSize(600, 600)];
             [adapter setPlotTitle:[NSString stringWithFormat:@"Plot %d", i+1]];
@@ -30,6 +30,11 @@ int main(int argc, const char * argv[])
             [adapter renderPlot];
             [adapter closePlot];
         }
+        [adapter openPlotWithIndex:7];
+        demo(adapter);
+        [adapter renderPlot];
+        [adapter closePlot];
+        
          while (1) {
             sleep(1);
         }
@@ -85,10 +90,10 @@ void demo(AQTAdapter *adapter)
         0, 0, 0
     };
        
-    [adapter openPlotWithIndex:1];
+    // [adapter openPlotWithIndex:1];
     [adapter setPlotSize:NSMakeSize(620,420)];
     [adapter setPlotTitle:@"Testview"];
-    // [adapter setAcceptingEvents:YES];
+    [adapter setAcceptingEvents:YES];
     // Set colormap
     [adapter setColormapEntry:0 red:1.0 green:1.0 blue:1.0]; // white
     [adapter setColormapEntry:1 red:0.0 green:0.0 blue:0.0]; // black

@@ -8,7 +8,7 @@
 
 #import <stdint.h>
 #import <Foundation/Foundation.h>
-// #import "AQTEventProtocol.h"
+#import "AQTEventHandling.h"
 
 @class AQTPlotState;
 // @protocol AQTEventProtocol;
@@ -16,7 +16,7 @@
 extern NSString *AQUATERM_LOGLEVEL;
 extern NSString *AQUATERM_PATH;
 
-@interface AQTClientManager : NSObject // <AQTEventProtocol>
+@interface AQTClientManager : NSObject <AQTEventHandling>
 {
    // NSMutableDictionary *_builders; /* The objects responsible for assembling a model object from client's calls. */
   //  NSMutableDictionary *_plots; /* The objects responsible for assembling a model object from client's calls. */
@@ -30,7 +30,7 @@ extern NSString *AQUATERM_PATH;
     BOOL errorState;
 }
 @property id server;
-@property id activeBuilder;
+@property AQTPlotState *activeBuilder;
 @property NSMutableDictionary *builders;
 
 + (AQTClientManager *)sharedManager;
@@ -55,7 +55,7 @@ extern NSString *AQUATERM_PATH;
 // - (AQTPlotBuilder *)clearPlot;
 // - (void)clearPlotRect:(NSRect)aRect;
 
-// - (void)setAcceptingEvents:(BOOL)flag;
+- (void)setAcceptingEvents:(BOOL)flag;
 // - (NSString *)lastEvent;
 
 /* testing methods */

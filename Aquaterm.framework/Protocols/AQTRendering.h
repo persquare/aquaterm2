@@ -7,15 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "AQTEventHandling.h"
 @class AQTModel;
 
 @protocol AQTRendering <NSObject>
-//- (void)setClient:(byref id)aClient;
 - (void)setModel:(bycopy AQTModel *)aModel; // (id)?
-//- (void)appendModel:(bycopy id)aModel;
-//- (void)draw;
-//- (void)removeGraphicsInRect:(AQTRect)aRect; // FIXME: Replace by an AQTErase object?
-//- (void)setAcceptingEvents:(BOOL)flag;
-//- (void)close;
+- (void)setEventDelegate:(id <AQTEventHandling>)delegate;
 @end

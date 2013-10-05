@@ -358,19 +358,27 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
     [_builders removeObjectForKey:_activePlotKey];
     [self setActivePlotKey:nil];
 }
-
+*/
 #pragma mark ==== Events ====
+
+- (oneway void)processEvent:(bycopy NSString *)event sender:(id)sender
+{
+    
+}
 
 - (void)setAcceptingEvents:(BOOL)flag
 {
-    if (errorState == YES || _activePlotKey == nil) return;
+    [self.activeBuilder.plot setEventDelegate:flag?self:nil];
+    
+    /*   if (errorState == YES || _activePlotKey == nil) return;
     NS_DURING
     [[_plots objectForKey:_activePlotKey] setAcceptingEvents:flag];
     NS_HANDLER
     [self _aqtHandlerError:[localException name]];
     NS_ENDHANDLER
+  */
 }
-
+/*
 - (NSString *)lastEvent
 {
     NSString *event;

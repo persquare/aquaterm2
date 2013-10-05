@@ -28,6 +28,23 @@
     NSLog(@"%@#%@", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
 }
 
+#pragma mark ==== Event handling ====
+
+- (BOOL)acceptsFirstResponder
+{
+    return !![[self.window.windowController document] eventDelegate];
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    id <AQTEventHandling> handler = [[self.window.windowController document] eventDelegate];
+    [handler processEvent:@"EVENT" sender:@"DUMMY_ID"];
+}
+
+
+#pragma mark ==== Drawing ====
+
+
 -(BOOL)isOpaque
 {
     return YES;

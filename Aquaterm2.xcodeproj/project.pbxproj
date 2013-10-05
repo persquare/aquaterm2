@@ -47,6 +47,7 @@
 		4325292917BE782400084E34 /* Aquaterm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 432528BB17BE6E9300084E34 /* Aquaterm.framework */; };
 		43333D4717CBC823002398D5 /* centrality.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43333D4517CBC823002398D5 /* centrality.mm */; };
 		436FDB2117B903CB005B80F5 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436FDB2017B903CB005B80F5 /* ApplicationServices.framework */; };
+		43C13B9717E1FAB7002CE932 /* AQTEventHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C13B9617E1FAB7002CE932 /* AQTEventHandling.h */; };
 		43C4DBCB17B78E4700D4700F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C4DBCA17B78E4700D4700F /* Foundation.framework */; };
 		43C4DBCE17B78E4700D4700F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C4DBCD17B78E4700D4700F /* main.m */; };
 		43C4DBD217B78E4700D4700F /* tool.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43C4DBD117B78E4700D4700F /* tool.1 */; };
@@ -151,6 +152,7 @@
 		433F2C2817CF2B7A00038B3A /* _metadata.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = _metadata.py; sourceTree = "<group>"; };
 		433F2C2917CF2B7A00038B3A /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		436FDB2017B903CB005B80F5 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		43C13B9617E1FAB7002CE932 /* AQTEventHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AQTEventHandling.h; sourceTree = "<group>"; };
 		43C4DBC917B78E4700D4700F /* tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = tool; path = Tool; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C4DBCA17B78E4700D4700F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43C4DBCD17B78E4700D4700F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 			children = (
 				432528FA17BE72D800084E34 /* AQTConnecting.h */,
 				432528FB17BE72D800084E34 /* AQTRendering.h */,
+				43C13B9617E1FAB7002CE932 /* AQTEventHandling.h */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				4325290F17BE72D800084E34 /* AQTPath.h in Headers */,
 				4325291117BE72D800084E34 /* AQTConnecting.h in Headers */,
 				4325291217BE72D800084E34 /* AQTRendering.h in Headers */,
+				43C13B9717E1FAB7002CE932 /* AQTEventHandling.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

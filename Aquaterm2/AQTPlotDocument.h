@@ -13,6 +13,7 @@
 {
     AQTModel *_model;
 }
+@property id<AQTEventHandling> eventDelegate;
 @property id clientID;
 @property NSString *name;
 @property int32_t pid;
