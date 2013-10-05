@@ -16,4 +16,7 @@
 @property NSRect clipRect;
 @property BOOL clipped;
 @property id cache;
+
+- (NSRect)updateBounds;
+- (NSRect)clippedBounds;
 @end
