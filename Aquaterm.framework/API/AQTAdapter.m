@@ -166,7 +166,7 @@
 /*" Closes the current plot but leaves viewer window on screen. Disables event handling. "*/
 - (void)closePlot
 {
- //   [_clientManager closePlot];
+    [_clientManager closePlot];
     _state = nil;
 }
 
@@ -508,7 +508,7 @@
 /*" Remove any objects %completely inside aRect. Does %not force a redraw of the plot."*/
 - (void)eraseRect:(NSRect)aRect
 {
-    // FIXME: Possibly keep a list of rects to be erased and pass them before any append command??
+    [_state.model removeObjectsInRect:aRect];
 }
 
 /*" Set a transformation matrix for images added by #addTransformedImageWithBitmap:size:clipRect:, see NSImage documentation for details. "*/

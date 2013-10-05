@@ -49,7 +49,7 @@ extern NSString *AQUATERM_PATH;
 
 - (AQTPlotState *)newPlotWithIndex:(int32_t)refNum;
 - (AQTPlotState *)selectPlotWithIndex:(int32_t)refNum;
-// - (void)closePlot;
+- (void)closePlot;
 
 // - (void)renderPlot;
 // - (AQTPlotBuilder *)clearPlot;

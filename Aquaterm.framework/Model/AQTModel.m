@@ -81,4 +81,21 @@ static NSString *AQTDirtyKey = @"AQTDirtyKey";
 {
     return [_modelObjects lastObject];
 }
+
+-(void)removeObjectsInRect:(NSRect)removeBounds
+{
+    // First check if whole canvas is contained in rect,
+    // if not test objects one by one.
+    // FIXME: Bounds update in renderer (App) depends on model.bounds == {0}
+    //        To keep compatibility for now, create temp bounds here
+    NSRect tmpBounds = NSMakeRect(0, 0, self.canvasSize.width, self.canvasSize.height);
+    // Make test rect just a tiny bit bigger
+    removeBounds = NSInsetRect(removeBounds, -1, -1);
+    if (NSContainsRect(removeBounds, tmpBounds)) {
+        [_modelObjects removeAllObjects];
+    } else {
+        // Iterate
+        NSLog(@"Not implemented: -%@, %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
+    }
+}
 @end

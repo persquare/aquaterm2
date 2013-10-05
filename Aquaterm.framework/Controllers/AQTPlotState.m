@@ -22,8 +22,7 @@ extern const int32_t AQTRoundLineCapStyle;
     if (self) {
         _plot = plot;
         // FIXME: Default plot size + preferences, NOT NSZeroSize!
-        _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
-        [self setDefaultValues];
+        [self reset];
     }
     return self;
 }
@@ -54,6 +53,7 @@ extern const int32_t AQTRoundLineCapStyle;
 
 - (void)reset
 {
+    _model = [[AQTModel alloc] initWithCanvasSize:NSZeroSize];
     [self setDefaultValues];
 }
 @end

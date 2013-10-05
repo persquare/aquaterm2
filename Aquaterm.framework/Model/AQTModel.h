@@ -16,4 +16,5 @@
 -(NSUInteger)count;
 -(void)addObject:(AQTGraphic *)graphic;
 -(AQTGraphic *)lastObject;
+-(void)removeObjectsInRect:(NSRect)rect;
 @end
