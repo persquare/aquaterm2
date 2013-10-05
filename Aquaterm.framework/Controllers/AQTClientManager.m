@@ -257,6 +257,17 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
     }
     return aBuilder;
 }
+
+- (void)closePlot
+{
+    if (!self.activeBuilder) {
+        return;
+    }
+    [self.activeBuilder reset];
+    self.activeBuilder = nil;
+}
+
+
 /*
 - (void)renderPlot
 {
