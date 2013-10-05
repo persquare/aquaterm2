@@ -17,6 +17,9 @@ Support:
   - Better preferences
   - Simplify fonts by providing mappings for serif, sans, mono, +italic, +bold (picking default too)
   - Inspector for certain properties?
+  - All objects except labels can correctly compute their bounds early on.
+  - Provide a -clippedBounds method?
+  - Don't keep _state in adapter, request it from clientManager. 
 
 Base functionality:
  - Events
@@ -37,15 +40,20 @@ Bugs:
   - Last line segment not drawn?
 
 Actions:
+  - Disable re-open windows from last session behaviour.
+  - Decide if eraseRect: is in or out.
+  - Rewrite image functions to ALWAYS use transform, even in the scaling case.
   - Printing size/margins needs to be set up right
   - Export to image file
   - Symbol font
   - Set up unit testing
   - Fix python module build phase script to work for deployment and install too
   - AQTModel -> AQTCanvas makes more sense
-  - Get rid of AQTPlotBuilder
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  + Subsequent plots doesn't show up in e.g. `simple.dem` @done (13-10-05 08:56)
+  + Fix eraseRect: to make it work with gnuplot. @done (13-10-05 08:55)
+  + Get rid of AQTPlotBuilder @done (13-10-03 15:43)
   + Print support @done (13-09-05 15:43)
   + Copy-support @done (13-09-04 10:59)
   + Display title @done (13-09-03 10:46)
