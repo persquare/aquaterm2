@@ -107,7 +107,7 @@
 		432528BF17BE6E9300084E34 /* Aquaterm.framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Aquaterm.framework-Info.plist"; sourceTree = "<group>"; };
 		432528C117BE6E9300084E34 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		432528C317BE6E9300084E34 /* Aquaterm.framework-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aquaterm.framework-Prefix.pch"; sourceTree = "<group>"; };
-		432528CC17BE6E9300084E34 /* Aquaterm.frameworkTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Aquaterm.frameworkTests.octest; path = FrameworkTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		432528CC17BE6E9300084E34 /* FrameworkTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FrameworkTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		432528D417BE6E9300084E34 /* Aquaterm.frameworkTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Aquaterm.frameworkTests-Info.plist"; sourceTree = "<group>"; };
 		432528D617BE6E9300084E34 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		432528D817BE6E9300084E34 /* Aquaterm_frameworkTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Aquaterm_frameworkTests.h; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 		433F2C2817CF2B7A00038B3A /* _metadata.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = _metadata.py; sourceTree = "<group>"; };
 		433F2C2917CF2B7A00038B3A /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		436FDB2017B903CB005B80F5 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		43C4DBC917B78E4700D4700F /* tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = tool; path = Tool; sourceTree = BUILT_PRODUCTS_DIR; };
+		43C4DBC917B78E4700D4700F /* Tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tool; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C4DBCA17B78E4700D4700F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43C4DBCD17B78E4700D4700F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		43C4DBD017B78E4700D4700F /* tool-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tool-Prefix.pch"; sourceTree = "<group>"; };
@@ -388,9 +388,9 @@
 			isa = PBXGroup;
 			children = (
 				43FF2A0C17B4E5C60047B5C5 /* Aquaterm2.app */,
-				43C4DBC917B78E4700D4700F /* tool */,
+				43C4DBC917B78E4700D4700F /* Tool */,
 				432528BB17BE6E9300084E34 /* Aquaterm.framework */,
-				432528CC17BE6E9300084E34 /* Aquaterm.frameworkTests.octest */,
+				432528CC17BE6E9300084E34 /* FrameworkTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -473,6 +473,7 @@
 				432528B817BE6E9300084E34 /* Headers */,
 				432528B917BE6E9300084E34 /* Resources */,
 				433F2C2417CF2AF200038B3A /* ShellScript */,
+				CB4EB21618074C73000E6BBB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -499,7 +500,7 @@
 			);
 			name = FrameworkTests;
 			productName = Aquaterm.frameworkTests;
-			productReference = 432528CC17BE6E9300084E34 /* Aquaterm.frameworkTests.octest */;
+			productReference = 432528CC17BE6E9300084E34 /* FrameworkTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		43C4DBC817B78E4700D4700F /* Tool */ = {
@@ -518,7 +519,7 @@
 			);
 			name = Tool;
 			productName = tool;
-			productReference = 43C4DBC917B78E4700D4700F /* tool */;
+			productReference = 43C4DBC917B78E4700D4700F /* Tool */;
 			productType = "com.apple.product-type.tool";
 		};
 		43FF2A0B17B4E5C60047B5C5 /* Aquaterm2 */ = {
@@ -628,6 +629,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# Create python module\nsed \"s|__PATH__|$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME|\" $SCRIPT_INPUT_FILE_0 > $SCRIPT_OUTPUT_FILE_0\n";
 			showEnvVarsInLog = 0;
+		};
+		CB4EB21618074C73000E6BBB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "pw=\"$(osascript -e 'Tell application \"System Events\" to display dialog \"Password:\" default answer \"\" with hidden answer' -e 'text returned of result' 2>/dev/null)\" && /\necho \"$pw\" | sudo -S cp -a $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME /Library/Frameworks/.\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -844,6 +858,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -877,6 +893,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

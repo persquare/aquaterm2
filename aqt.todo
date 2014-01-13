@@ -49,6 +49,7 @@ Actions:
   - Set up unit testing
   - Fix python module build phase script to work for deployment and install too
   - AQTModel -> AQTCanvas makes more sense
+  - Testing with gnuplot as executable.
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
   + Subsequent plots doesn't show up in e.g. `simple.dem` @done (13-10-05 08:56)
