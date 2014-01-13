@@ -55,6 +55,7 @@
 		43FF2A2017B4E5C60047B5C5 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 43FF2A1E17B4E5C60047B5C5 /* Credits.rtf */; };
 		43FF2A2617B4E5C60047B5C5 /* AQTPlotDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43FF2A2417B4E5C60047B5C5 /* AQTPlotDocument.xib */; };
 		43FF2A2917B4E5C70047B5C5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43FF2A2717B4E5C70047B5C5 /* MainMenu.xib */; };
+		CBAE48D11884705200540C5C /* AQTPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBAE48D01884705200540C5C /* AQTPrintView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,8 @@
 		43FF2A2517B4E5C60047B5C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AQTPlotDocument.xib; sourceTree = "<group>"; };
 		43FF2A2817B4E5C70047B5C5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		43FF2A3017B4E5C70047B5C5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		CBAE48CF1884705200540C5C /* AQTPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AQTPrintView.h; path = Aquaterm2/AQTPrintView.h; sourceTree = "<group>"; };
+		CBAE48D01884705200540C5C /* AQTPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AQTPrintView.m; path = Aquaterm2/AQTPrintView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +327,8 @@
 				4325291A17BE745700084E34 /* AQTStringDrawingAdditions.m */,
 				4325291B17BE745700084E34 /* AQTPlotView.h */,
 				4325291C17BE745700084E34 /* AQTPlotView.m */,
+				CBAE48CF1884705200540C5C /* AQTPrintView.h */,
+				CBAE48D01884705200540C5C /* AQTPrintView.m */,
 			);
 			name = Source;
 			path = ..;
@@ -658,14 +663,14 @@
 		};
 		CB4EB21618074C73000E6BBB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "pw=\"$(osascript -e 'Tell application \"System Events\" to display dialog \"Password:\" default answer \"\" with hidden answer' -e 'text returned of result' 2>/dev/null)\" && /\necho \"$pw\" | sudo -S cp -a $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME /Library/Frameworks/.\n";
 		};
@@ -714,6 +719,7 @@
 				4325292617BE775600084E34 /* main.m in Sources */,
 				4325291D17BE745700084E34 /* AQTPlotDocument.m in Sources */,
 				4325291E17BE745700084E34 /* AQTGraphicDrawingMethods.m in Sources */,
+				CBAE48D11884705200540C5C /* AQTPrintView.m in Sources */,
 				4325291F17BE745700084E34 /* AQTServer.m in Sources */,
 				4325292017BE745700084E34 /* AQTStringDrawingAdditions.m in Sources */,
 				4325292117BE745700084E34 /* AQTPlotView.m in Sources */,
