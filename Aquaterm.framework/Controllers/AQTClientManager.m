@@ -84,6 +84,10 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
     return [self connectToServerWithName:@"aquatermServer"];
 }
 
+
+#define TIMEOUT 10
+#define ONE_SEC 1
+
 - (BOOL)connectToServerWithName:(NSString *)registeredName
 {
     if (![self launchAquaterm]) {
@@ -91,8 +95,9 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
         return FALSE;
     }
     _server = [NSConnection rootProxyForConnectionWithRegisteredName:registeredName host:nil];
-    if (!_server) {
-        return FALSE;
+    for (int i=0; i<TIMEOUT && !_server; i++) {
+        sleep(ONE_SEC);
+        _server = [NSConnection rootProxyForConnectionWithRegisteredName:registeredName host:nil];
     }
     @try {
         [_server setProtocolForProxy:@protocol(AQTConnecting)];
@@ -127,7 +132,8 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
     }
     CFStringRef aquatermBundleID = CFSTR(AQUATERM_BUNDLE_ID);
     FSRef appFileRef;
-    OSStatus status = LSFindApplicationForInfo('AqT2', aquatermBundleID, NULL, &appFileRef, NULL);
+    OSStatus status = LSFindApplicationForInfo(kLSUnknownCreator, aquatermBundleID, NULL, &appFileRef, NULL);
+    // NSLog(@"%@", CFBridgingRelease(CFURLCreateFromFSRef(NULL, &appFileRef)));
     if (status == noErr) {
         return [self launchAquatermFromFSRef:appFileRef];
     }
@@ -150,7 +156,7 @@ NSString *AQUATERM_PATH = @"AQUATERM_PATH";
         kLSLaunchDontSwitch, /* LSLaunchFlags flags; */
         &app, /* const FSRef * application; */
         NULL, /* void * asyncLaunchRefCon; */
-        NULL, /* CFDictionaryRef environment; */
+        NULL,/* CFDictionaryRef environment; */
         NULL, /* CFArrayRef argv; */
         NULL  /* AppleEvent * initialEvent */
     };

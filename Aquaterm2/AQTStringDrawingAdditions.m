@@ -51,7 +51,7 @@ unichar _aqtMapAdobeSymbolEncodingToUnicode(unichar theChar)
 {
    int32_t i;
    int32_t firstChar = 0;
-   int32_t strLen = [self length];
+   int32_t strLen = (int32_t)[self length];
    NSPoint pos = NSZeroPoint;
    NSBezierPath *tmpPath = [NSBezierPath bezierPath];
    BOOL convertSymbolFontToUnicode = [[aFont fontName] isEqualToString:@"Symbol"] 
@@ -90,7 +90,7 @@ unichar _aqtMapAdobeSymbolEncodingToUnicode(unichar theChar)
 -(NSBezierPath *)aqtBezierPathInFont:(NSFont *)defaultFont
 {
    NSString *text = [self string]; // Yuck!
-   int32_t strLen = [text length];
+   int32_t strLen =  (int32_t)[text length];
    NSBezierPath *tmpPath = [NSBezierPath bezierPath];
    NSPoint pos = NSZeroPoint;
    int32_t firstChar = 0;
@@ -128,7 +128,7 @@ NSPoint recurse(NSBezierPath *path, const NSAttributedString *attrString, NSStri
    NSPoint subPos = pos;
    BOOL extendsRight = NO;
    BOOL underlining = NO;
-   int32_t strLen = [text length];
+   int32_t strLen = (int32_t)[text length];
    float glyphHeight = defaultFontSize * fontScale;
    int32_t attributedSublevel = 0;
    float baselineOffset = 0.0;
@@ -143,8 +143,8 @@ NSPoint recurse(NSBezierPath *path, const NSAttributedString *attrString, NSStri
       float attributedFontsize = (attributes[@"AQTFontsize"] != nil)?
          [attributes[@"AQTFontsize"] integerValue]:
          defaultFontSize;
-      attributedSublevel = (attributes[NSSuperscriptAttributeName] != nil)?
-         [attributes[NSSuperscriptAttributeName] integerValue]:
+      attributedSublevel =  (attributes[NSSuperscriptAttributeName] != nil)?
+         (int32_t)[attributes[NSSuperscriptAttributeName] integerValue]:
          0;
       float baselineAdjust = (attributes[@"AQTBaselineAdjust"] != nil)?
          [attributes[@"AQTBaselineAdjust"] doubleValue]:

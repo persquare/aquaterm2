@@ -86,6 +86,13 @@
 			remoteGlobalIDString = 432528BA17BE6E9300084E34;
 			remoteInfo = Aquaterm;
 		};
+		43CC812D180D58A30063E9E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43FF2A0417B4E5C60047B5C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43FF2A0B17B4E5C60047B5C5;
+			remoteInfo = Aquaterm2;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,7 +109,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		432528B517BE624D00084E34 /* aqt.todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = aqt.todo; sourceTree = "<group>"; };
+		432528B517BE624D00084E34 /* aqt.todo */ = {isa = PBXFileReference; explicitFileType = text; path = aqt.todo; sourceTree = "<group>"; };
 		432528BB17BE6E9300084E34 /* Aquaterm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Aquaterm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		432528BF17BE6E9300084E34 /* Aquaterm.framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Aquaterm.framework-Info.plist"; sourceTree = "<group>"; };
 		432528C117BE6E9300084E34 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -463,6 +470,24 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		43CC8129180D589D0063E9E0 /* GnuplotTest */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 43CC812C180D589D0063E9E0 /* Build configuration list for PBXLegacyTarget "GnuplotTest" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/echo;
+			buildWorkingDirectory = "";
+			dependencies = (
+				43CC812E180D58A30063E9E0 /* PBXTargetDependency */,
+			);
+			name = GnuplotTest;
+			passBuildSettingsInEnvironment = 1;
+			productName = GnuplotTest;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		432528BA17BE6E9300084E34 /* Aquaterm */ = {
 			isa = PBXNativeTarget;
@@ -566,6 +591,7 @@
 				432528BA17BE6E9300084E34 /* Aquaterm */,
 				43C4DBC817B78E4700D4700F /* Tool */,
 				432528CB17BE6E9300084E34 /* FrameworkTests */,
+				43CC8129180D589D0063E9E0 /* GnuplotTest */,
 			);
 		};
 /* End PBXProject section */
@@ -717,6 +743,11 @@
 			target = 432528BA17BE6E9300084E34 /* Aquaterm */;
 			targetProxy = 4325292C17BE787700084E34 /* PBXContainerItemProxy */;
 		};
+		43CC812E180D58A30063E9E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43FF2A0B17B4E5C60047B5C5 /* Aquaterm2 */;
+			targetProxy = 43CC812D180D58A30063E9E0 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -845,6 +876,27 @@
 			};
 			name = Release;
 		};
+		43CC812A180D589D0063E9E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		43CC812B180D589D0063E9E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		43FF2A3E17B4E5C70047B5C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -957,6 +1009,15 @@
 			buildConfigurations = (
 				43C4DBD417B78E4700D4700F /* Debug */,
 				43C4DBD517B78E4700D4700F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43CC812C180D589D0063E9E0 /* Build configuration list for PBXLegacyTarget "GnuplotTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43CC812A180D589D0063E9E0 /* Debug */,
+				43CC812B180D589D0063E9E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
