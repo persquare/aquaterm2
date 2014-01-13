@@ -7,6 +7,7 @@
 //
 
 #import "AQTPlotDocument.h"
+#import "AQTPrintView.h"
 
 @implementation AQTPlotDocument
 
@@ -117,14 +118,18 @@
     return [self.window contentView];
 }
 
-
 - (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings
                                            error:(NSError **)outError
 {
     NSPrintOperation *po = nil;
+    NSPrintInfo *pi = [NSPrintInfo sharedPrintInfo];
+
+    NSLog(@"%@", pi);
+    
+    AQTPrintView *printView = [[AQTPrintView alloc] initWithFrame:[pi imageablePageBounds] document:self];
     
     @try {
-        po = [NSPrintOperation printOperationWithView:self.contentView];
+        po = [NSPrintOperation printOperationWithView:printView  printInfo:pi];
     }
     @catch (NSException *exception) {
         if (outError) {
