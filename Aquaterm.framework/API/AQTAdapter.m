@@ -83,12 +83,13 @@
 }
 
 /*" Optionally set an error handling routine of the form #customErrorHandler(NSString *errMsg) to override default behaviour. "*/
-/*
+
 - (void)setErrorHandler:(void (*)(NSString *errMsg))fPtr
 {
-    [_clientManager setErrorHandler:fPtr];
+    NSLog(@"Not implemented: -%@, %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
+    // [_clientManager setErrorHandler:fPtr];
 }
-*/
+
 /*" Optionally set an event handling routine of the form #customEventHandler(int index, NSString *event).
  The reference number of the plot that generated the event is passed in index and
  the structure of the string event is @"type:data1:data2:..."
@@ -99,12 +100,13 @@
  _{2:%{x,y}:%key KeyDownEvent }
  _{42:%{x,y}:%key ServerError }
  _{43:%{x,y}:%key Error } "*/
-/*
+
 - (void)setEventHandler:(void (*)(int32_t index, NSString *event))fPtr
 {
-    [_clientManager setEventHandler:fPtr];
+    NSLog(@"Not implemented: -%@, %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
+    // [_clientManager setEventHandler:fPtr];
 }
-*/
+
 - (void)connectionDidDie:(id)x
 {
     // NSLog(@"in --> %@ %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
@@ -173,22 +175,27 @@
 #pragma mark === Event handling ===
 
 /*" Inform AquaTerm whether or not events should be passed from the currently selected plot. Deactivates event passing from any plot previously set to pass events. "*/
-/*
+
 - (void)setAcceptingEvents:(BOOL)flag
 {
-    [_clientManager setAcceptingEvents:flag];
+    NSLog(@"Not implemented: -%@, %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
+    // [_clientManager setAcceptingEvents:flag];
 }
-*/
+
 /*" Reads the last event logged by the viewer. Will always return NoEvent unless #setAcceptingEvents: is called with a YES argument."*/
-/*
 - (NSString *)lastEvent
 {
-    [[NSRunLoop currentRunLoop] runMode:NSConnectionReplyMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    return [_clientManager lastEvent];
+    NSLog(@"Not implemented: -%@, %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
+    return @"0";
+    // [[NSRunLoop currentRunLoop] runMode:NSConnectionReplyMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    // return [_clientManager lastEvent];
 }
 
 - (NSString *)waitNextEvent // FIXME: timeout? Hardcoded to 10s
 {
+    NSLog(@"Not implemented: -%@, %s line %d", NSStringFromSelector(_cmd), __FILE__, __LINE__);
+    return @"0";
+/*
     NSString *event;
     BOOL isRunning;
     [self setAcceptingEvents:YES];
@@ -199,8 +206,9 @@
     } while (isRunning);
     [self setAcceptingEvents:NO];
     return event;
-}
 */
+ }
+
 #pragma mark === Plotting commands ===
 
 /*" Set a clipping region (rectangular) to apply to all subsequent operations, until changed again by #setClipRect: or #setDefaultClipRect. "*/

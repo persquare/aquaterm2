@@ -9,7 +9,7 @@
 #ifndef __Aquaterm2__centrality__
 #define __Aquaterm2__centrality__
 
-#include "AQTAdapter.h"
+#include <Aquaterm/AQTAdapter.h>
 #if __cplusplus
 extern "C" {
 #endif

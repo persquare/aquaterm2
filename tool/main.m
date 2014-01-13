@@ -50,6 +50,8 @@ void simple(AQTAdapter *adapter)
         0, 0, 255,
         0, 0, 0
     };
+ 
+#pragma unused(points, pos, i, f, pi, rgbImage)
     
     [adapter openPlotWithIndex:1];
     [adapter setPlotSize:NSMakeSize(620,420)];
@@ -318,7 +320,9 @@ void demo(AQTAdapter *adapter)
     
     // Text
     [adapter setFontname:@"Times-Roman"];
-    NSString *s = [NSString stringWithFormat:@"Unicode: %C %C %C %C%C%C%C%C", 0x2124, 0x2133, 0x5925, 0x2654, 0x2655, 0x2656, 0x2657, 0x2658];
+    NSString *s = [NSString stringWithFormat:@"Unicode: %C %C %C %C%C%C%C%C",
+                   (unichar)0x2124, (unichar)0x2133, (unichar)0x5925, (unichar)0x2654,
+                   (unichar)0x2655, (unichar)0x2656, (unichar)0x2657, (unichar)0x2658];
     NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:s];
     [as setAttributes:@{@"AQTFontname": @"AppleSymbols"} range:NSMakeRange(9,11)];
     [as setAttributes:@{@"AQTFontname": @"Song Regular"} range:NSMakeRange(13,1)];

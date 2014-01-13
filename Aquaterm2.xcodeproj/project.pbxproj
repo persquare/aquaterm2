@@ -86,6 +86,13 @@
 			remoteGlobalIDString = 432528BA17BE6E9300084E34;
 			remoteInfo = Aquaterm;
 		};
+		43CC812D180D58A30063E9E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43FF2A0417B4E5C60047B5C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43FF2A0B17B4E5C60047B5C5;
+			remoteInfo = Aquaterm2;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,12 +109,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		432528B517BE624D00084E34 /* aqt.todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = aqt.todo; sourceTree = "<group>"; };
+		432528B517BE624D00084E34 /* aqt.todo */ = {isa = PBXFileReference; explicitFileType = text; path = aqt.todo; sourceTree = "<group>"; };
 		432528BB17BE6E9300084E34 /* Aquaterm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Aquaterm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		432528BF17BE6E9300084E34 /* Aquaterm.framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Aquaterm.framework-Info.plist"; sourceTree = "<group>"; };
 		432528C117BE6E9300084E34 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		432528C317BE6E9300084E34 /* Aquaterm.framework-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Aquaterm.framework-Prefix.pch"; sourceTree = "<group>"; };
-		432528CC17BE6E9300084E34 /* Aquaterm.frameworkTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Aquaterm.frameworkTests.octest; path = FrameworkTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		432528CC17BE6E9300084E34 /* FrameworkTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FrameworkTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		432528D417BE6E9300084E34 /* Aquaterm.frameworkTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Aquaterm.frameworkTests-Info.plist"; sourceTree = "<group>"; };
 		432528D617BE6E9300084E34 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		432528D817BE6E9300084E34 /* Aquaterm_frameworkTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Aquaterm_frameworkTests.h; sourceTree = "<group>"; };
@@ -151,7 +158,7 @@
 		433F2C2817CF2B7A00038B3A /* _metadata.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = _metadata.py; sourceTree = "<group>"; };
 		433F2C2917CF2B7A00038B3A /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		436FDB2017B903CB005B80F5 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		43C4DBC917B78E4700D4700F /* tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = tool; path = Tool; sourceTree = BUILT_PRODUCTS_DIR; };
+		43C4DBC917B78E4700D4700F /* Tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Tool; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C4DBCA17B78E4700D4700F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		43C4DBCD17B78E4700D4700F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		43C4DBD017B78E4700D4700F /* tool-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tool-Prefix.pch"; sourceTree = "<group>"; };
@@ -388,9 +395,9 @@
 			isa = PBXGroup;
 			children = (
 				43FF2A0C17B4E5C60047B5C5 /* Aquaterm2.app */,
-				43C4DBC917B78E4700D4700F /* tool */,
+				43C4DBC917B78E4700D4700F /* Tool */,
 				432528BB17BE6E9300084E34 /* Aquaterm.framework */,
-				432528CC17BE6E9300084E34 /* Aquaterm.frameworkTests.octest */,
+				432528CC17BE6E9300084E34 /* FrameworkTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -463,6 +470,24 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		43CC8129180D589D0063E9E0 /* GnuplotTest */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 43CC812C180D589D0063E9E0 /* Build configuration list for PBXLegacyTarget "GnuplotTest" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/echo;
+			buildWorkingDirectory = "";
+			dependencies = (
+				43CC812E180D58A30063E9E0 /* PBXTargetDependency */,
+			);
+			name = GnuplotTest;
+			passBuildSettingsInEnvironment = 1;
+			productName = GnuplotTest;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		432528BA17BE6E9300084E34 /* Aquaterm */ = {
 			isa = PBXNativeTarget;
@@ -499,7 +524,7 @@
 			);
 			name = FrameworkTests;
 			productName = Aquaterm.frameworkTests;
-			productReference = 432528CC17BE6E9300084E34 /* Aquaterm.frameworkTests.octest */;
+			productReference = 432528CC17BE6E9300084E34 /* FrameworkTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		43C4DBC817B78E4700D4700F /* Tool */ = {
@@ -518,7 +543,7 @@
 			);
 			name = Tool;
 			productName = tool;
-			productReference = 43C4DBC917B78E4700D4700F /* tool */;
+			productReference = 43C4DBC917B78E4700D4700F /* Tool */;
 			productType = "com.apple.product-type.tool";
 		};
 		43FF2A0B17B4E5C60047B5C5 /* Aquaterm2 */ = {
@@ -546,7 +571,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = AQT;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Aquaterm;
 			};
 			buildConfigurationList = 43FF2A0717B4E5C60047B5C5 /* Build configuration list for PBXProject "Aquaterm2" */;
@@ -565,6 +590,7 @@
 				432528BA17BE6E9300084E34 /* Aquaterm */,
 				43C4DBC817B78E4700D4700F /* Tool */,
 				432528CB17BE6E9300084E34 /* FrameworkTests */,
+				43CC8129180D589D0063E9E0 /* GnuplotTest */,
 			);
 		};
 /* End PBXProject section */
@@ -703,6 +729,11 @@
 			target = 432528BA17BE6E9300084E34 /* Aquaterm */;
 			targetProxy = 4325292C17BE787700084E34 /* PBXContainerItemProxy */;
 		};
+		43CC812E180D58A30063E9E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43FF2A0B17B4E5C60047B5C5 /* Aquaterm2 */;
+			targetProxy = 43CC812D180D58A30063E9E0 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -831,11 +862,31 @@
 			};
 			name = Release;
 		};
+		43CC812A180D589D0063E9E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		43CC812B180D589D0063E9E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		43FF2A3E17B4E5C70047B5C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -868,7 +919,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -941,6 +991,15 @@
 			buildConfigurations = (
 				43C4DBD417B78E4700D4700F /* Debug */,
 				43C4DBD517B78E4700D4700F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43CC812C180D589D0063E9E0 /* Build configuration list for PBXLegacyTarget "GnuplotTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43CC812A180D589D0063E9E0 /* Debug */,
+				43CC812B180D589D0063E9E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
