@@ -158,5 +158,11 @@
     [self putOnPasteboard:pdfImage];
 }
 
+- (IBAction)export:(id)sender
+{
+    NSLog(@"Export");
+    // NSData* data = [mainView dataWithPDFInsideRect:[mainView bounds]];
+    // NSImage *img = [[NSImage alloc] initWithData:data];
+}
 
 @end

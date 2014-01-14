@@ -17,4 +17,5 @@
 @property NSString *name;
 @property int32_t pid;
 - (AQTModel *)model;
+- (IBAction)export:(id)sender;
 @end

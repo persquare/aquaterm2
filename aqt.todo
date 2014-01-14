@@ -46,7 +46,7 @@ Actions:
   + Printing size/margins needs to be set up right
   - Print page orientation
   + Transparent print background
-  - Annotated plot (filename, date, notes, etc)
+  - Annotated plot (filename, date, notes, etc) additions to print panel.
   - Export to image file
   - Symbol font
   - Set up unit testing
