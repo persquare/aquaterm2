@@ -69,6 +69,10 @@
     dirtyCanvasRect.origin = [transform transformPoint:dirtyRect.origin];
     dirtyCanvasRect.size = [transform transformSize:dirtyRect.size];
     
+    // Model object is responsible for background...
+    [model setAQTColor];
+    NSRectFill(dirtyCanvasRect);
+
     [model renderInRect:dirtyCanvasRect]; // expects aRect in canvas coords, _not_ view coords
     
 #ifdef DEBUG_BOUNDS

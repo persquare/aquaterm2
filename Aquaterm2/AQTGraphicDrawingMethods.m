@@ -76,11 +76,7 @@ static float _aqtMinimumLinewidth;
 
     // FIXME: Get rid of this
     _aqtMinimumLinewidth = [[NSUserDefaults standardUserDefaults] floatForKey:@"MinimumLinewidth"];
-    
-    // Model object is responsible for background...
-    [self setAQTColor];
-    NSRectFill(dirtyRect);
-    
+        
     for (AQTGraphic *graphic in _modelObjects) {
         [graphic renderInRect:dirtyRect];
     }
