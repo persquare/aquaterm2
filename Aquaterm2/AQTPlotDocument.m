@@ -80,6 +80,31 @@
     return (_model != nil);
 }
 
+- (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings
+                                           error:(NSError **)outError
+{
+    NSPrintOperation *po = nil;
+    NSPrintInfo *pi = [NSPrintInfo sharedPrintInfo];
+    
+    NSLog(@"%@", pi);
+    NSRect modelFrame = NSMakeRect(0, 0, _model.canvasSize.width, _model.canvasSize.height);
+    
+    AQTPrintView *printView = [[AQTPrintView alloc] initWithFrame:modelFrame model:_model];
+    
+    @try {
+        po = [NSPrintOperation printOperationWithView:printView  printInfo:pi];
+        [[po printInfo] setVerticalPagination:NSFitPagination];
+        [[po printInfo] setHorizontalPagination:NSFitPagination];
+    }
+    @catch (NSException *exception) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"Foo" code:42 userInfo:nil];
+        }
+    }
+    
+    return po;
+}
+
 - (AQTModel *)model
 {
     return _model;
@@ -117,32 +142,6 @@
 {
     return [self.window contentView];
 }
-
-- (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings
-                                           error:(NSError **)outError
-{
-    NSPrintOperation *po = nil;
-    NSPrintInfo *pi = [NSPrintInfo sharedPrintInfo];
-
-    NSLog(@"%@", pi);
-    NSRect modelFrame = NSMakeRect(0, 0, _model.canvasSize.width, _model.canvasSize.height);
-    
-    AQTPrintView *printView = [[AQTPrintView alloc] initWithFrame:modelFrame model:_model];
-    
-    @try {
-        po = [NSPrintOperation printOperationWithView:printView  printInfo:pi];
-        [[po printInfo] setVerticalPagination:NSFitPagination];
-        [[po printInfo] setHorizontalPagination:NSFitPagination];
-    }
-    @catch (NSException *exception) {
-        if (outError) {
-            *outError = [NSError errorWithDomain:@"Foo" code:42 userInfo:nil];
-        }
-    }
-    
-    return po;
-}
-
 
 #pragma mark ==== Action methods ====
 
