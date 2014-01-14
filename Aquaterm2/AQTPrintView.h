@@ -11,6 +11,6 @@
 
 
 @interface AQTPrintView : NSView
-@property AQTPlotDocument *doc;
-- (id)initWithFrame:(NSRect)frame document:(AQTPlotDocument *)doc;
+@property AQTModel *model;
+- (id)initWithFrame:(NSRect)frame model:(AQTModel *)model;
 @end

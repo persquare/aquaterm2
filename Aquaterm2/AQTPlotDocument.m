@@ -125,11 +125,14 @@
     NSPrintInfo *pi = [NSPrintInfo sharedPrintInfo];
 
     NSLog(@"%@", pi);
+    NSRect modelFrame = NSMakeRect(0, 0, _model.canvasSize.width, _model.canvasSize.height);
     
-    AQTPrintView *printView = [[AQTPrintView alloc] initWithFrame:[pi imageablePageBounds] document:self];
+    AQTPrintView *printView = [[AQTPrintView alloc] initWithFrame:modelFrame model:_model];
     
     @try {
         po = [NSPrintOperation printOperationWithView:printView  printInfo:pi];
+        [[po printInfo] setVerticalPagination:NSFitPagination];
+        [[po printInfo] setHorizontalPagination:NSFitPagination];
     }
     @catch (NSException *exception) {
         if (outError) {
