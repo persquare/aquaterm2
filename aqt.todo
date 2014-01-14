@@ -43,13 +43,16 @@ Actions:
   - Disable re-open windows from last session behaviour.
   - Decide if eraseRect: is in or out.
   - Rewrite image functions to ALWAYS use transform, even in the scaling case.
-  - Printing size/margins needs to be set up right
+  + Printing size/margins needs to be set up right
+  - Print page orientation
+  - Transparent print background
+  - Annotated plot (filename, date, notes, etc)
   - Export to image file
   - Symbol font
   - Set up unit testing
   - Fix python module build phase script to work for deployment and install too
   - AQTModel -> AQTCanvas makes more sense
-  - Testing with gnuplot as executable.
+  + Testing with gnuplot as executable.
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
   + Subsequent plots doesn't show up in e.g. `simple.dem` @done (13-10-05 08:56)
