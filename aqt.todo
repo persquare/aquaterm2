@@ -45,7 +45,7 @@ Actions:
   - Rewrite image functions to ALWAYS use transform, even in the scaling case.
   + Printing size/margins needs to be set up right
   - Print page orientation
-  - Transparent print background
+  + Transparent print background
   - Annotated plot (filename, date, notes, etc)
   - Export to image file
   - Symbol font
