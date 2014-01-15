@@ -51,6 +51,14 @@
     return data;
 }
 
++ (NSPrintOperation *)printOperationFromModel:(AQTModel *)model printInfo:(NSPrintInfo *)pi
+{
+    NSRect modelFrame = NSMakeRect(0, 0, model.canvasSize.width, model.canvasSize.height);
+    AQTPrintView *view = [[AQTPrintView alloc] initWithFrame:modelFrame model:model];
+    
+    return [NSPrintOperation printOperationWithView:view  printInfo:pi];
+}
+
 - (id)initWithFrame:(NSRect)frame model:(AQTModel *)model
 {
     self = [super initWithFrame:frame];
