@@ -160,9 +160,31 @@
 
 - (IBAction)export:(id)sender
 {
-    NSLog(@"Export");
-    // NSData* data = [mainView dataWithPDFInsideRect:[mainView bounds]];
-    // NSImage *img = [[NSImage alloc] initWithData:data];
+    NSView *canvasView = self.contentView;
+    NSRect viewBounds = canvasView.bounds;
+    
+    // http://stackoverflow.com/questions/17507170/how-to-save-png-file-from-nsimage-retina-issues
+    NSData* data = [canvasView dataWithPDFInsideRect:viewBounds];
+    NSImage *image = [[NSImage alloc] initWithData:data];
+    CGImageRef cgRef = [image CGImageForProposedRect:NULL
+                                             context:nil
+                                               hints:nil];
+    NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
+    [newRep setSize:[image size]];   // if you want the same resolution
+    NSData *pngData = [newRep representationUsingType:NSPNGFileType properties:nil];
+    
+    // Set the default name for the file and show the panel.
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setNameFieldStringValue:[_model.title stringByAppendingPathExtension:@"png"]];
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton)
+        {
+            NSURL *theFile = [panel URL];
+            [pngData writeToFile:[theFile path] atomically:YES];
+        }
+    }];
+    
+    
 }
 
 @end
