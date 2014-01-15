@@ -12,5 +12,6 @@
 
 @interface AQTPrintView : NSView
 @property AQTModel *model;
++ (NSData *)dataOfType:(NSString *)dataType fromModel:(AQTModel *)model;
 - (id)initWithFrame:(NSRect)frame model:(AQTModel *)model;
 @end

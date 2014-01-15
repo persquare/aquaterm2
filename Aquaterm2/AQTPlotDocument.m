@@ -52,11 +52,19 @@
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     NSData *data = nil;
-    @try {
-        data = [NSKeyedArchiver archivedDataWithRootObject:_model];
-    }
-    @catch (NSException *exception) {
-        if (outError) {
+    
+    if ([typeName isEqualToString:@"com.github.aquaterm.Aquaterm2"]) {
+        @try {
+            data = [NSKeyedArchiver archivedDataWithRootObject:_model];
+        }
+        @catch (NSException *exception) {
+            if (outError) {
+                *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:nil];
+            }
+        }
+    } else {
+        data = [AQTPrintView dataOfType:typeName fromModel:_model];
+        if (!data && outError) {
             *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:nil];
         }
     }
@@ -78,6 +86,22 @@
     }
 
     return (_model != nil);
+}
+
+- (void)saveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError *errorOrNil))completionHandler
+{
+    BOOL success = NO;
+    NSError *error = nil;
+    NSData *data = [self dataOfType:typeName error:&error];
+    
+    if (data) {
+        success = [data writeToFile:[url path] atomically:YES];
+        if (!success) {
+            [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:nil];
+        }
+    }
+    
+    completionHandler(error);
 }
 
 - (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings
@@ -156,35 +180,6 @@
     [pdfImage addRepresentation:pdfRep];
     
     [self putOnPasteboard:pdfImage];
-}
-
-- (IBAction)export:(id)sender
-{
-    NSView *canvasView = self.contentView;
-    NSRect viewBounds = canvasView.bounds;
-    
-    // http://stackoverflow.com/questions/17507170/how-to-save-png-file-from-nsimage-retina-issues
-    NSData* data = [canvasView dataWithPDFInsideRect:viewBounds];
-    NSImage *image = [[NSImage alloc] initWithData:data];
-    CGImageRef cgRef = [image CGImageForProposedRect:NULL
-                                             context:nil
-                                               hints:nil];
-    NSBitmapImageRep *newRep = [[NSBitmapImageRep alloc] initWithCGImage:cgRef];
-    [newRep setSize:[image size]];   // if you want the same resolution
-    NSData *pngData = [newRep representationUsingType:NSPNGFileType properties:nil];
-    
-    // Set the default name for the file and show the panel.
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setNameFieldStringValue:[_model.title stringByAppendingPathExtension:@"png"]];
-    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton)
-        {
-            NSURL *theFile = [panel URL];
-            [pngData writeToFile:[theFile path] atomically:YES];
-        }
-    }];
-    
-    
 }
 
 @end

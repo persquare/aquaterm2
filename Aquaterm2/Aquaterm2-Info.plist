@@ -14,15 +14,30 @@
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
 			<key>CFBundleTypeName</key>
-			<string>Plot</string>
+			<string>Aquaterm2 plot document</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>AqT2</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.github.aquaterm.Aquaterm2</string>
+			</array>
 			<key>NSDocumentClass</key>
 			<string>AQTPlotDocument</string>
+			<key>NSExportableTypes</key>
+			<array>
+				<string>com.adobe.pdf</string>
+				<string>com.adobe.encapsulated-postscript</string>
+				<string>public.png</string>
+				<string>public.jpeg</string>
+				<string>public.jpeg-2000</string>
+				<string>public.tiff</string>
+				<string>com.compuserve.gif</string>
+				<string>com.microsoft.bmp</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -53,5 +68,29 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Aquaterm2 plot document</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.github.aquaterm.Aquaterm2</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<array>
+					<string>AqT2</string>
+				</array>
+				<key>public.filename-extension</key>
+				<array>
+					<string>aqt</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
