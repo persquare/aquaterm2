@@ -171,12 +171,9 @@
 
 - (void)copy:(id)sender
 {
-    NSView *canvasView = self.contentView;
-    NSRect viewBounds = canvasView.bounds;
-    
-    NSData* theData = [canvasView dataWithPDFInsideRect:viewBounds];
+    NSData* theData = [AQTPrintView dataOfType:@"com.adobe.pdf" fromModel:_model];
     NSPDFImageRep* pdfRep = [NSPDFImageRep imageRepWithData:theData];
-    NSImage* pdfImage = [[NSImage alloc] initWithSize:viewBounds.size];
+    NSImage* pdfImage = [[NSImage alloc] initWithSize:pdfRep.size];
     [pdfImage addRepresentation:pdfRep];
     
     [self putOnPasteboard:pdfImage];
