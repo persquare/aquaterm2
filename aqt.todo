@@ -38,21 +38,22 @@ Extended functionality:
 Bugs:
   - Don't open empty doc on startup
   - Where is Untitled 1?
-  - Last line segment not drawn?
 
 Actions:
   - Print page orientation
   - Annotated plot (filename, date, notes, etc) additions to print panel.
   - Preference pane
   - Disable re-open windows from last session behaviour.
-  - Decide if eraseRect: is in or out.
-  - Rewrite image functions to ALWAYS use transform, even in the scaling case.
   - Symbol font
   - Set up unit testing
   - Fix python module build phase script to work for deployment and install too
   - AQTModel -> AQTCanvas makes more sense
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  + Rewrite image functions to ALWAYS use transform, even in the scaling case.
+  + Last line segment not drawn?
+  + Binary images doesn't show up.
+  + Decide if eraseRect: is in or out.
   + Printing size/margins needs to be set up right
   + Transparent print background
   + Export to image file
