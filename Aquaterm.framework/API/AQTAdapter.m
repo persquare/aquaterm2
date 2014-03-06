@@ -550,40 +550,43 @@
     _state.imageTransform = [NSAffineTransform transform];
 }
 
-/*" Add a bitmap image of size bitmapSize scaled to fit destBounds, does %not apply transform. Bitmap format is 24bits per pixel in sequence RGBRGB... with 8 bits per color."*/
-- (void)addImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize bounds:(NSRect)destBounds
+// Local helper function
+- (AQTImage *)privateAddImageWithBitmap:(const void *)bitmap
+                                   size:(NSSize)bitmapSize
 {
     AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize];
-    NSAffineTransform *trans = [NSAffineTransform transform];
-    [trans translateXBy:destBounds.origin.x yBy:destBounds.origin.y];
-    [trans scaleXBy:destBounds.size.width/bitmapSize.width yBy:destBounds.size.height/bitmapSize.height];
-    tmpImage.transform = trans;
+    tmpImage.transform = _state.imageTransform;
     tmpImage.clipRect = _state.clipRect;
     tmpImage.clipped = !NSEqualRects(_state.clipRect, NSZeroRect);
     [_state.model addObject:tmpImage];
+
+    return tmpImage;
+}
+
+/*" Add a bitmap image of size bitmapSize scaled to fit destBounds, does %not apply transform. Bitmap format is 24bits per pixel in sequence RGBRGB... with 8 bits per color."*/
+- (void)addImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize bounds:(NSRect)destBounds
+{
+    AQTImage *tmpImage = [self privateAddImageWithBitmap:bitmap size:bitmapSize];
+    NSAffineTransform *transform = [NSAffineTransform transform];
+    [transform translateXBy:destBounds.origin.x yBy:destBounds.origin.y];
+    [transform scaleXBy:destBounds.size.width/bitmapSize.width yBy:destBounds.size.height/bitmapSize.height];
+    // Override transform setting for added image
+    tmpImage.transform = transform;
 }
 
 /*" Deprecated, use #addTransformedImageWithBitmap:size: instead. Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to destBounds. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize clipRect:(NSRect)destBounds
 {
-    // FIXME: Bounds either needs to be transformed bounds or NOT tested for in AQTDrawingMethods
-    AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize];
-    tmpImage.transform = _state.imageTransform;
-    [tmpImage setClipRect:destBounds]; // Override _clipRect to restore old behaviour
-    [tmpImage setClipped:YES];
-    [_state.model addObject:tmpImage];
-
+    AQTImage *tmpImage = [self privateAddImageWithBitmap:bitmap size:bitmapSize];
+    // Override _clipRect to mimic old behaviour
+    tmpImage.clipRect = destBounds;
+    tmpImage.clipped = YES;
 }
 
 /*" Add a bitmap image of size bitmapSize %honoring transform, transformed image is clipped to current clipRect. Bitmap format is 24bits per pixel in sequence RGBRGB...  with 8 bits per color."*/
 - (void)addTransformedImageWithBitmap:(const void *)bitmap size:(NSSize)bitmapSize
 {
-    AQTImage *tmpImage = [[AQTImage alloc] initWithBitmap:bitmap size:bitmapSize];
-    tmpImage.transform = _state.imageTransform;
-    tmpImage.clipRect = _state.clipRect;
-    tmpImage.clipped = !NSEqualRects(_state.clipRect, NSZeroRect);
-    [_state.model addObject:tmpImage];
-
+    [self privateAddImageWithBitmap:bitmap size:bitmapSize];
 }
 @end
 
