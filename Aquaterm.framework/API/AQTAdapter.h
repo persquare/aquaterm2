@@ -100,7 +100,7 @@ extern const int32_t AQTAlignTop;
 - (void)addEdgeToVertexPoint:(NSPoint)point; 
 - (void)addPolygonWithVertexPoints:(NSPoint *)points pointCount:(int32_t)pc;
 - (void)addFilledRect:(NSRect)aRect;
-- (void)eraseRect:(NSRect)aRect;
+- (void)eraseRect:(NSRect)aRect __attribute__((deprecated));
 
   /*" Image handling "*/
 - (void)setImageTransformM11:(float)m11 m12:(float)m12 m21:(float)m21 m22:(float)m22 tX:(float)tX tY:(float)tY;

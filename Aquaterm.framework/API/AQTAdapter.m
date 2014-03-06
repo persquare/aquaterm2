@@ -509,14 +509,24 @@
         NSMakePoint(NSMaxX(aRect), NSMinY(aRect)),
         NSMakePoint(NSMaxX(aRect), NSMaxY(aRect)),
         NSMakePoint(NSMinX(aRect), NSMaxY(aRect))};
-    // [self eraseRect:aRect];
     [self addPolygonWithVertexPoints:pointList pointCount:4];
 }
 
-/*" Remove any objects %completely inside aRect. Does %not force a redraw of the plot."*/
+// FIXME: Deprecate this API function
+/*" (This method is deprecated)
+ If aRect is >= plot bounds then remove all polt objects, but keep plot state.
+ The old behaviour was to remove any objects %completely inside aRect.
+ Does %not force a redraw of the plot."*/
 - (void)eraseRect:(NSRect)aRect
 {
-    [_state.model removeObjectsInRect:aRect];
+    // Contain all the ugliness here.
+    NSSize canvasSize = _state.model.canvasSize;
+    NSRect tmpBounds = NSMakeRect(0, 0, canvasSize.width, canvasSize.height);
+    // Make test rect just a tiny bit bigger
+    aRect = NSInsetRect(aRect, -1, -1);
+    if (NSContainsRect(aRect, tmpBounds)) {
+        [_state.model removeAllObjects];
+    }
 }
 
 /*" Set a transformation matrix for images added by #addTransformedImageWithBitmap:size:clipRect:, see NSImage documentation for details. "*/
