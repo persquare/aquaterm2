@@ -18,6 +18,9 @@
  this is ugly, but I can't see a simple way to do it without affecting performance. */
 static float _aqtMinimumLinewidth;
 
+
+
+
 @implementation AQTGraphic (AQTGraphicDrawingMethods)
 - (void)setAQTColor
 {
@@ -235,10 +238,6 @@ static float _aqtMinimumLinewidth;
 @end
 
 @implementation AQTImage (AQTImageDrawing)
--(BOOL)fitBounds
-{
-    return YES;
-}
 
 -(void)updateCache
 {
@@ -262,15 +261,13 @@ static float _aqtMinimumLinewidth;
 
 -(NSRect)updateBounds
 {
-    NSRect tmpBounds = self.bounds;
-    if (!self.fitBounds) {
-        // Make a path from bounds rect, transform the path,
-        // retrieve the new bounds from the path.
-        NSRect bitmapBounds = NSMakeRect(0, 0, self.bitmapSize.width, self.bitmapSize.height);
-        NSBezierPath *path = [NSBezierPath bezierPathWithRect:bitmapBounds];
-        tmpBounds = [[self.transform transformBezierPath:path] bounds];
-        [self setBounds:tmpBounds];
-    }
+    // Make a path from bounds rect, transform the path,
+    // retrieve the new bounds from the path.
+    NSRect bitmapBounds = NSMakeRect(0, 0, self.bitmapSize.width, self.bitmapSize.height);
+    NSBezierPath *path = [NSBezierPath bezierPathWithRect:bitmapBounds];
+    NSRect tmpBounds = [[self.transform transformBezierPath:path] bounds];
+    [self setBounds:tmpBounds];
+
     return tmpBounds;
 }
 
@@ -287,18 +284,11 @@ static float _aqtMinimumLinewidth;
     if (self.clipped) {
         NSRectClip(self.clippedBounds);
     }
-    if (self.fitBounds) {
-        [self.cache drawInRect:self.bounds
-                      fromRect:NSMakeRect(0,0,[self.cache size].width,[self.cache size].height)
-                     operation:NSCompositeSourceOver
-                      fraction:1.0];
-    } else {
-        [self.transform concat];
-        [self.cache drawAtPoint:NSMakePoint(0,0)
-                       fromRect:NSMakeRect(0,0,[self.cache size].width,[self.cache size].height)
-                      operation:NSCompositeSourceOver
-                       fraction:1.0];
-    }
+    [self.transform concat];
+    [self.cache drawAtPoint:NSMakePoint(0,0)
+                   fromRect:NSMakeRect(0,0,[self.cache size].width,[self.cache size].height)
+                  operation:NSCompositeSourceOver
+                   fraction:1.0];
     [NSGraphicsContext restoreGraphicsState];
 #ifdef DEBUG_BOUNDS
     [self highlightBounds];

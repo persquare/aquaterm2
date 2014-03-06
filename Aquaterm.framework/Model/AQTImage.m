@@ -25,14 +25,11 @@ static NSString *AQTTransformKey = @"AQTTransformKey";
 @synthesize bitmap = _bitmap;
 @synthesize transform;
 
-- (id)initWithBitmap:(const char *)bytes size:(NSSize)size bounds:(NSRect)bounds
+- (id)initWithBitmap:(const char *)bytes size:(NSSize)size
 {
   if (self = [super init])
   {
-      self.bounds = bounds;
       self.bitmapSize = size;
-      // FIXME: Removing `fitBounds`, and relying on transform.
-      //        Need to set correct scaling from start.
       self.transform = [NSAffineTransform transform];
       // Implies RGB data
       _bitmap = [[NSData alloc] initWithBytes:bytes length:3*size.width*size.height];

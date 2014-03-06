@@ -18,7 +18,6 @@
   @property NSAffineTransform *transform;
 
 - (id)initWithBitmap:(const char *)bytes
-                size:(NSSize)size
-              bounds:(NSRect)bounds;
+                size:(NSSize)size;
 
 @end
