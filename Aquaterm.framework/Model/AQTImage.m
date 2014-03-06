@@ -2,6 +2,20 @@
 
 #import "AQTImage.h"
 
+#import <Foundation/NSAffineTransform.h>
+
+@interface NSAffineTransform (PortCoding)
+- (id)replacementObjectForPortCoder:(NSPortCoder *)encoder;
+@end
+
+@implementation NSAffineTransform (PortCoding)
+- (id)replacementObjectForPortCoder:(NSPortCoder *)encoder
+{
+    if ([encoder isBycopy]) return self;
+    return [super replacementObjectForPortCoder:encoder];
+}
+@end
+
 static NSString *AQTBitmapKey = @"AQTBitmapKey";
 static NSString *AQTBitmapSizeKey = @"AQTBitmapSizeKey";
 static NSString *AQTTransformKey = @"AQTTransformKey";
